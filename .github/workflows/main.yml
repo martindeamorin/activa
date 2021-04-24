@@ -22,4 +22,4 @@ jobs:
 
     - name: 🔨 Build Project
       run: |
-        ls
+        npm start
