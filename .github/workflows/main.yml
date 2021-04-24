@@ -23,10 +23,9 @@ jobs:
     - name: 🔨 Build Project
       uses: actions/setup-node@v1
       with:
-        node-version: 10.15.0
+        node-version: 10.x
     - run: |
-        rm -rf node_modules
-        npm install
+        ls
         npm start
       env:
         CI: true
