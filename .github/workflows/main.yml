@@ -28,6 +28,6 @@ jobs:
         password: ${{ secrets.ftp_password }}
         port: 17177
         script: |
-          cd public_html
           pkill node
+          cd public_html
           nohup npm start &
