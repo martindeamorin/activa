@@ -21,11 +21,6 @@ jobs:
         server-dir: ${{ secrets.ftp_route }}
 
     - name: 🔨 Build Project
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
-    - run: |
+      script: |
         ls
         npm start
-      env:
-        CI: true
