@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+
+    <div class="contenedorLoginRegister">
+        <div class="contenedorForm">
+            <img src="/images/system/logo-nav.png">
+            <h2>Registro</h2>
+            <form action="/register" method="POST">
+                <div class="wrapperInput">
+                    <div class="errorContainer">
+                        <input type="text" name="nombreUsuario" placeholder="Nombre" id="nombre">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "nombreUsuario") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                    <div class="errorContainer">
+                        <input type="text" name="apellidoUsuario" placeholder="Apellido" id="apellido">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "apellidoUsuario") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                </div>
+                <div class="errorContainer">
+                    <input type="text" name="dni" placeholder="DNI" id="dni">
+                    <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                        <%for(let error of errors){%>
+                            <%if((error.param == "dni") && (error.msg != ("Invalid value"))){%>
+                                <%= error.msg%>
+                            <%}%>
+                        <%}%>
+                    <%}%></span>
+                </div>
+                <div class="wrapperInput">
+                    <div class="errorContainer">
+                        <input type="email" placeholder="Correo electronico" name="emailUsuario" id="emailRegister">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "emailUsuario") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                    <div class="errorContainer">
+                        <input type="email" placeholder="Repita su correo electronico" name="rptEmail" id="rptEmail">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "rptEmail") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                </div>
+                <div class="wrapperInput">
+                    <div class="errorContainer">
+                        <input type="password" name="contrasena" placeholder="Contraseña" id="pwdRegister">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "contrasena") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                    <div class="errorContainer">
+                        <input type="password" name="rptContrasena" placeholder="Repita su contraseña" id="repeatPwdRegister">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "rptContrasena") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                </div>
+                <div class="newsletter"><span>¿Quieres suscribirte a nuestro newsletter?</span><input type="checkbox" name="newsletter" id="newsletter"></div>
+                <button type="submit" class="claseButton" id="btnRegister">REGISTRARSE</button>
+                <span id="errorSubmit" class="errorMessage"></span>
+            </form>
+        </div>
+    </div>
+    <script src="/javascripts/system/register.js"></script>
+</body>
+</html>

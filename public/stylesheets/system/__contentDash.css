@@ -1,0 +1,44 @@
+.contenedorContenido{
+    width: 70%;
+    background-color: #D9E0E7;
+    min-height: 100vh;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* INDEX - REGISTRAR CURSO */
+
+.contenedorContenido h2{
+    font-weight: 500;
+    text-align: center;
+}
+
+.mobileNav{
+    display: none;
+    width: 100%;
+}
+
+.mobileNav i {
+    margin-left: auto;
+    margin-right: 1vw;
+    margin-top: 1vh;
+    font-size: 20px;
+    cursor: pointer;
+}
+.showImg{
+    display: none;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 1vh;
+}
+@media only screen and (max-width: 990px){
+    .mobileNav{
+        display: flex;
+    }
+
+    .contenedorContenido{
+        width: 100%;
+        margin: auto;
+    }
+}

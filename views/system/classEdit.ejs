@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %>
+<body>
+    <div class="contenedorDashboard">
+        <%- include('partials/navMenu') %> 
+        <div class="contenedorContenido">
+
+            <h2>Editar clase <%=classData.nombre_clase%></h1>
+            <div class="contenedorForm">
+                <form action="/dashboard/class-edit/<%=classData.id%>" method="POST">
+                    <input type="text" name="nombreClase" placeholder="Nombre" value="<%=classData.nombre_clase%>">
+                    <input placeholder="Fecha" name="fechaClase" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" value="<%=classData.fecha%>"/>
+                    <div>
+                    <input type="text" name="linkClase" placeholder="Link de clase" value="<%=classData.link_clase%>">
+                    <input type="text" name="contrasenaClase" placeholder="Contraseña clase" value="<%=classData.contrasena_clase%>">
+                    </div>
+                    <textarea cols="30" rows="5" placeholder="Descripcion clase" name="descripcionClase"><%= classData.	descripcion_clase%></textarea>
+                    <button class="claseButton" type="submit">Editar</button>
+                </form>
+            </div>
+            <div class="contenedorClases">
+                <div class="contenedorArchivos">
+                    <h2>Agregar archivos</h2>
+
+                <form action="/dashboard/class-edit/<%=classData.id%>/file-upload" method="POST" enctype="multipart/form-data" id="files">
+                <label class="uploadImage">
+                    <i class="fa fa-cloud-upload"></i><span>Subir archivo/s</span>
+                    <input type="file" name="rutaArchivo" placeholder="Subir Imágenes" multiple>
+                </label>
+                </form>
+            <div class="selectedFiles">
+                No has seleccionado ningun archivo
+            </div>
+            </div>
+            <div class="contenedorVideos">
+                <h2>Agregar video</h2>
+                <input type="text" name="urlVideo" placeholder="URL del video" form="files">
+            </div>
+            </div>
+            <button type="submit" class="claseButton" form="files">Subir</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>TIPO</th>
+                        <th>ELIMINAR</th>
+                    </tr>
+                </thead>
+                    <tbody>    
+                        <% if(!(classData.files[0])){%>
+                            <tr>
+                                <td colspan="3">Este clase no tiene archivos</td>
+                            </tr>
+                        <% }else{%>
+                            <% for(let fileData of classData.files){%>
+                            <tr>
+                                <td><%= fileData.ruta_archivo%></td>
+                                <td><%= fileData.tipo_archivo%></td>
+                                <td><a href="/dashboard/class-edit/<%=fileData.id%>/file-delete"><i class="fas fa-trash-alt"></i></a></i></td>
+                            </tr>
+                            <% }%>
+                        <% } %>
+                    </tbody>
+            </table>
+        </div>
+
+        </div>
+    </div>
+    <script src="/javascripts/system/classEdit.js"></script>
+</body>
+</html>

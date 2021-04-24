@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/dashboardHead') %> 
+</head>
+<body>
+    <div class="contenedorCursos">
+        <%- include('partials/header') %> 
+        <div class="courseWrapper">
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/cursos">Inicio</a> > Clases</span>
+            <h3><%=courseName.nombre_curso%></h3>
+            <div class="contenedorModulos">
+                <div class="moduleCard">
+                    
+                    <div class="clasesModulo">
+                        <% for(let classInfo of classData){%>
+                            <div class="classCard">
+                                <span class="dot"
+                                    <%for(let seen of seenArray){%><% if(seen == classInfo.id){%>
+                                            style="background-color : green"
+                                        <%}%>
+                                        <%}%>></span>
+                                <div class="classCardContent">
+                                <span><%=classInfo.nombre_clase%></span>
+                                <span><%if(classInfo.fecha != "0000-00-00"){%>
+                                    <%=classInfo.fecha%>
+                                <%}%></span>
+                                <a href="/cursos/<%=courseID%>/clases/<%=classInfo.id%>"><button class="claseButton">Ver contenido</button></a></div>
+                            </div>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/system/header.js"></script>
+    <script src="/javascripts/system/moduleUser.js"></script>
+</body>
+</html>

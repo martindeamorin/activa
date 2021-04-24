@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/dashboardHead') %> 
+</head>
+<body>
+    <%- include('partials/header') %> 
+    <div class="contenedorCursos">
+        <div class="courseWrapper">
+            <h3><%=classData.nombre_clase%></h3>
+            <div class="classContainer">
+                <div class="classHeader">
+                    <span id="info">Informacion de la clase</span>
+                    <div class="classInfo">
+                        <span><%if(classData.fecha != "0000-00-00"){%>
+                            <%=classData.fecha%>
+                        <%}%></span>
+                        <span><%if(classData.link_clase != ""){%>
+                            <a href="<%=classData.link_clase%>" style="color: #170fe4">Link a la reunion</a>
+                        <%}%></span>
+                        <span><%if(classData.contrasena_clase != ""){%>
+                            Contraseña: <%=classData.contrasena_clase%>
+                        <%}%></span>
+                    </div>
+                </div>
+                <div class="videoContainer">
+                    <span><i class="fas fa-video"></i> Material audiovisual</span>
+                    <%for(let file of classData.files){%>
+                        <%if(file.tipo_archivo == "video"){%>
+                        <div class="embed-container">
+                            <iframe src="<%=file.ruta_archivo%>" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <%}%>
+                    <%}%>
+                </div>
+                <div class="fileContainer">
+                <span><i class="fas fa-folder"></i> Recursos adicionales</span>
+                <div class="fileFolder">
+                    <%for(let file of classData.files){%>
+                    <%if(file.tipo_archivo == "archivo"){%>
+                    <span><i id="file" class="fas fa-file"></i><%= file.ruta_archivo%><a href="/files/<%= file.ruta_archivo%>" download><i id="download" class="fas fa-download"></i></a></span> 
+                    <%}%>
+                    <%}%>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/system/header.js"></script>
+
+</body>
+</html>

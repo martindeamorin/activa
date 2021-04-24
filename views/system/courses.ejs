@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+    <%- include('partials/header') %> 
+    <div class="contenedorCursos">
+        <div class="courseWrapper">
+            <h2>¡Bienvenido, <%= nombre %>!</h2>
+            <%if(!arrayData[0]){%>
+                <p style="text-align: center;">No has comprado ningún curso todavia, puedes explorar nuestra oferta <a href="https://activacoaching.com.ar/#popular-courses" style="color: #170fe4;">aquí</a></p>
+            <%}%>
+            <%for(let data of arrayData){%>
+            <div class="courseCard">
+                <div class="courseContent">
+                    <img src="/images/amarse-2.jpg" alt="">
+                    <div class="courseInfo">
+                        <h1><%= data.courseName%></h1>
+                        <div class="infoDisplay">
+                            <div class="recentActivity">
+                                <h5>ACTIVIDAD RECIENTE</h5>
+                                <p><%=data.ultimaClase%></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="courseButtons">
+                        <a href="/cursos/<%=data.courseID%>/clases"><button class="claseButton"><span style="margin: auto;">Ver clases</span></button></a>
+                    </div>
+                </div>
+                <div class="courseFooter">
+                    <div class="progressInfo">
+                        <span>Progreso</span>
+                        <div>
+                            <span class="dot" style="background-color: green;"></span>
+                            <span><%=((data.clasesVistas * 100) / data.totalClases).toFixed(0)%>% completado</span>
+                        </div>
+                    </div>
+                    <div class="bar">
+                        <div class="progress" role="progressbar" aria-valuenow="<%=(data.clasesVistas * 100) / data.totalClases%>" aria-valuemin="0" aria-valuemax="100" style="width : <%=(data.clasesVistas * 100) / data.totalClases%>%"></div>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+    <script src="/javascripts/system/header.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+.contenedorForm{
+    display: flex;
+    width: 100%;
+}
+
+.contenedorForm form{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+input:not([type="checkbox"]){
+    padding: 5px;
+    border: #03936E solid 1px;
+    border-radius: 20px;
+    margin : 0.5vh;
+}
+.contenedorForm textarea{
+    padding: 5px;
+    border: #03936E solid 1px;
+    border-radius: 10px;
+    margin : 0.5vh;
+    resize: none;
+}
+
+.contenedorForm button{
+    margin: auto;
+}
+
+
+.contenedorClases{
+    display: flex;
+    width: 100%;
+}
+
+.contenedorArchivos{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.contenedorVideos{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.uploadImage input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.uploadImage{
+    border: 1px solid black;
+    display: inline-block;
+    height: fit-content;
+    padding: 2px 2px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: white;
+    max-width: max-content;
+}
+.uploadImage i{
+    margin-right: 5px;
+
+}
+
+.selectedFiles{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 1vh;
+    width: 360px;
+    text-align: center;
+}
+
+.selectedFiles span{
+    padding: 5px;
+}
+
+.contenedorVideos input{
+    width: 300px;
+}

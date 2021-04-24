@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%- include('partials/head') %> 
+
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <%- include('partials/header') %> 
+
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs-amarse" data-aos="fade-in">
+      <div class="container">
+
+      </div>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Cource Details Section ======= -->
+    <section id="course-details" class="course-details">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-8">
+            <img src="/images/<%=courseData.imagen_curso%>" class="img-fluid" alt="">
+            <h3><%=courseData.nombre_curso%></h3>
+            <p>
+              <!-- Filosofía de Louise Hay y Mindfulnnes: Público en general. Un encuentro con uno mismo con técnicas fáciles que te permiten conocerte, liderarte y crear así ambientes de amor, paz, que traen para ti salud y felicidad.          
+              
+              Lo que esperamos que te lleves de este taller es: 
+              - Aprender a amarte 
+              - Generar autoestima 
+              - Conectar con un universo de posibilidades propias 
+              - Conectar con el aquí y ahora: Respiración/relajación/ meditación 
+              - Conocer y crear pensamientos que te potencien 
+              - Relacionar lo que pasa con tu cuerpo y las emociones  -->
+              <%=courseData.descripcion_curso%>
+            </p>
+          </div>
+          <div class="col-lg-4">
+
+            <div class="course-info d-flex justify-content-between align-items-center">
+              <h5>Capacitador</h5>
+              <p><a>María Rosa Buffa PCC</a></p>
+            </div>
+
+            <div class="course-info d-flex justify-content-between align-items-center">
+              <h5>Duración</h5>
+              <p><%=classData.length%> clases</p>
+            </div>
+
+            <div class="course-info d-flex justify-content-between align-items-center">
+              <h5>Dias</h5>
+              <p><%=courseData.dia_curso%> <%=courseData.hora_curso.substring(0,5)%></p>
+            </div>
+
+            <div class="course-info d-flex justify-content-between align-items-center">
+              <h5>Valor del curso</h5>
+              <p>US$<%=courseData.costo_curso%></p>
+            </div>
+
+            <div class="course-info d-flex justify-content-between align-items-center">
+              <h5></h5>
+              <p>Accediendo a este taller tenes la posibilidad de sumarte a un ZOOM semanal en VIVO para profundizar y compartir.</p>
+            </div>
+            <div class="btn-wrap">
+              <input type="hidden" value="<%=courseData.id%>" id="courseID">
+              <% if(typeof nombre !== "undefined"){%>
+                <div class="btn-flex">
+                  <button class="mercadopago-button"></button>
+                  <form action='https://www.sandbox.paypal.com/cgi-bin/webscr' method='post'>
+                    <INPUT TYPE="hidden" name="charset" value="utf-8">
+                    <input name='cmd' type='hidden' value='_cart' />
+                    <input name='upload' type='hidden' value='1' />
+
+                    <input name='business' type='hidden' value='sb-w3zi25347294@business.example.com'/>
+                    <input name='currency_code' type='hidden' value='USD' />
+                    <input name='return' type='hidden' value='https://activacoaching.com.ar/cursos' />
+                    <input name='notify_url' type='hidden' value='https://activacoaching.com.ar/pp-notification' />
+                    <input name='rm' type='hidden' value='2' />
+                    <input name='custom' type='hidden' value="id=<%=id%>,email=<%=email%>" />
+                    <input name='item_number_1' type='hidden' value='<%=courseData.id%>' />
+                    <input name='item_name_1' type='hidden' value='<%=courseData.nombre_curso%>' />
+                    <input name='quantity_1' type='hidden' value='1' />
+                    <input name='amount_1' type='hidden' value='<%=courseData.costo_curso%>' />
+                      
+                    <button type='submit'>PAYPAL</button>
+                    </form>
+                </div>
+              <%} else{%>
+
+                <div class="course-info d-flex justify-content-between align-items-center" style="background-color: #86E3CE;">
+                    <p id="login" style="text-align: center;"><a style="color: #03936E;" id="log" href="http://activacoaching.com.ar/login">Inicia sesión</a> o <a style="color: #03936E;" id="reg" href="http://activacoaching.com.ar/register">registrate</a> para poder comprar este curso</p>
+                </div>
+                <%}%>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Cource Details Section -->
+
+    <!-- ======= Cource Details Tabs Section ======= -->
+    <section id="cource-details-tabs" class="cource-details-tabs">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+          <div class="col-lg-3">
+            <ul class="nav nav-tabs flex-column">
+              <% for(let i = 0; i < classData.length; i++){%> 
+              <li class="nav-item">
+                <a class="nav-link<%if(i === 0){%>active amarse show<%}%>"  data-toggle="tab" href="#tab-<%=i+1%>"><%=classData[i].nombre_clase%></a>
+              </li>
+              <%}%>
+             <!-- <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-4">Nostrum qui quasi</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab-5">Iusto ut expedita aut</a>
+              </li> -->
+            </ul>
+          </div>
+          <div class="col-lg-9 mt-4 mt-lg-0">
+            <div class="tab-content">
+              <% for (let i = 0; i< classData.length; i++){%>
+              <div class="tab-pane show<%if(i === 0){%>
+                 active
+                <%}%>" id="tab-<%=i+1%>">
+                <div class="row">
+                  <div class="col-lg-8 details order-2 order-lg-1">  
+                  <p class="font-italic" ><%=classData[i].descripcion_clase%></p>
+
+                  </div>
+                  <div class="col-lg-4 text-center order-1 order-lg-2">
+                    <img src="/images/amarse-2.jpg" alt="" class="img-fluid">
+                  </div>
+                </div>
+              </div>
+              <%}%>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Cource Details Tabs Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="container d-md-flex py-4">
+
+      <div class="mr-md-auto text-center text-md-left">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Activa</span></strong>. Todos los derechos reservados.
+        </div>
+        <div class="credits">
+          Diseñado por <a href="https://holadiseno.com.ar/">Hola Diseño</a>
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="bx bx-up-arrow-alt"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+  <script src="/vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="/vendor/counterup/counterup.min.js"></script>
+  <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="/vendor/aos/aos.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/javascripts/landing/main.js"></script>
+  <script src="/javascripts/landing/checkout.js"></script>
+  <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+    <div class="contenedorDashboard">
+        <%- include('partials/navMenu') %> 
+        <div class="contenedorContenido">
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > Módulos</span>
+            <h2>Editar detalles de <%= courseData.nombre_curso%></h2>
+            <div class="contenedorForm">
+                <form action="/dashboard/course-edit/<%=courseData.id%>" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <input type="text" name="nombreCurso" placeholder="Nombre" value="<%= courseData.nombre_curso%>">
+                        <input type="number" name="precioCurso" placeholder="Precio" value="<%= courseData.costo_curso%>">
+                    </div>
+                    <div>
+                        <input value="<%= courseData.fecha_inicio%>" placeholder="Fecha de inicio" name="fechaInicioCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                        <input value="<%= courseData.fecha_final%>" placeholder="Fecha de finalizacion" name="fechaFinalCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                    </div>
+                    <div>
+                        <input type="text" value="<%= courseData.dia_curso%>" name="diaCurso" placeholder="Dia de reunion">
+                        <input name="horaCurso" value="<%= courseData.hora_curso%>" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
+                    </div>
+                    <textarea placeholder="Descripcion corta" name="descripcionCorta" cols="30" rows="5"><%= courseData.descripcion_corta%></textarea>
+                    <textarea placeholder="Descripcion" name="descripcionCurso" id="" cols="30" rows="10"><%= courseData.descripcion_curso%></textarea>
+                    <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
+                        <i class="fa fa-cloud-upload"></i><span>Subir imagen</span>
+                        <input type="file" name="rutaImagen" placeholder="Subir Imágenes" id="imagenCurso" multiple>
+                    </label>
+                    <img class="showImg" style="display: block;" src="/images/<%=courseData.imagen_curso%>">
+                    <button class="claseButton" type="submit">Editar</button>
+                </form>
+            </div>
+            <h2>Agregar módulos a <%= courseData.nombre_curso%></h2>
+            <div class="contenedorForm">
+            <form action="/dashboard/course-edit/<%=courseData.id%>/module-create" method="POST">
+                    <input type="text" name="nombreModulo" placeholder="Nombre">
+                <div>
+                    <input placeholder="Fecha de inicio" name="fechaInicioModulo" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                    <input placeholder="Fecha de finalizacion" name="fechaFinalModulo" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                </div>
+                <button class="claseButton">Crear</button>
+            </form>
+            </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>MOSTRAR</th>
+                    <th>MODIFICAR</th>
+                </tr>
+            </thead>
+                <tbody id="moduleInfo">
+                    <input type="hidden" value="<%=courseData.id%>" id="courseID">
+                    <% if(!(courseData.modules[0])){%>
+                        <tr>
+                            <td colspan="3">Esta clase no tiene modulos</td>
+                        </tr>
+                    <% }else{%>
+                        <% for(let moduleData of courseData.modules){%>
+                        <tr>
+                            <td><%= moduleData.nombre_modulo%></td>
+                            <td><input class="habilitar" type="checkbox" <%if(moduleData.estado_modulo === true){%>
+                                checked="true"
+                                <%}%>></td>
+                            <td><a href="/dashboard/module-edit/<%=moduleData.id%>"><i class="fas fa-pencil-alt"></i></a><a href="/dashboard/module-edit/<%=moduleData.id%>/delete"><i class="fas fa-trash-alt"></i></a></i></td>
+                        </tr>
+                        <% }%>
+                    <% } %>
+                </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+    <script src ="/javascripts/system/courseCreate.js"></script>
+
+</body>
+</html>

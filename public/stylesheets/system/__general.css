@@ -1,0 +1,98 @@
+html, body{
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+  }
+
+.contenedorDashboard{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 100%;
+}
+
+.claseButton{
+    display: flex;
+    padding: 10px;
+    background-color: #86E3CE;
+    border-radius: 20px;
+    width: fit-content;
+    border: #03936E solid 1px;
+    font-weight: bolder;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 1vh;
+    text-align: center;
+}
+
+.claseButton:hover{
+    background-color: #03936E;
+    color: white;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.errorMessage{
+    color:#E15C5C;
+    font-weight: bold; 
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 5px;
+}
+
+h1{
+    margin: 0;
+    padding: 0;
+}
+
+.dot{
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+
+.navigation{
+    margin-left: 0.5vw;
+    display: inline-block;
+    margin-top: 1vh;
+    font-size: 13px;
+}
+
+.btnDashboard{
+    background-color: #FFDD94!important;
+    border: none;
+
+}
+
+.btnDashboard:hover{
+    background-color: #FCBB47!important;
+}
+
+
+@media only screen and (max-width: 480px){
+    .navigation{
+        margin-left: 1.5vw;
+    }
+
+
+}
+@media only screen and (max-width: 990px){
+    .contenedorDashboard{
+        width: fit-content;
+        padding: 0;
+    }
+
+}

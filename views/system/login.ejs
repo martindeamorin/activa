@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+
+    <div class="contenedorLoginRegister">
+        <div class="contenedorForm">
+            <img src="/images/system/logo-nav.png">
+            <h2>Iniciar sesion</h2>
+            <form action="/login" method="POST">
+                    <div class="errorContainer">
+                        <input type="email" placeholder="Correo electronico" name="emailUsuario" id="emailLogin">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "emailUsuario") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    <div class="errorContainer">
+                        <input type="password" name="contrasena" placeholder="Contraseña" id="pwdLogin">
+                        <span class="errorMessage"><% if(typeof errors != "undefined"){ %>
+                            <%for(let error of errors){%>
+                                <%if((error.param == "contrasena") && (error.msg != ("Invalid value"))){%>
+                                    <%= error.msg%>
+                                <%}%>
+                            <%}%>
+                        <%}%></span>
+                    </div>
+                <div class="newsletter"><span>Recordarme</span><input type="checkbox" name="rememberMe" id="rememberMe"></div>
+                <button type="submit" class="claseButton" id="btnRegister">INGRESAR</button>
+                <span id="errorSubmit" class="errorMessage"><% if(typeof errorMessage != "undefined"){%>
+                    <%= errorMessage %>
+                <%}%></span>
+            </form>
+            <a style="text-align: center;" href="#">¿Olvidaste tu contraseña?</a>
+            <a style="text-align: center;" href="/register">¿No estas registrado?</a>
+        </div>
+    </div>
+    <script src="/javascripts/system/login.js"></script>
+</body>
+</html>

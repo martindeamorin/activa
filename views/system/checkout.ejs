@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <script
+    src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+    data-preference-id='<%= global.id %>'>
+  </script>
+    </form>
+  </body>
+  
+  <script>
+    window.addEventListener("load", () => {
+            fetch("https://activacoaching.com.ar/mp-checkout", {
+                method : "POST",
+                "Content-Type" : "application/json"
+            })
+            .then(response => response.json())
+            .then(preference => {
+                document.querySelector(".mercadopago-button").dataset.preferenceId = preference.id;
+            })
+            .catch(err => console.log(err))
+        })
+  </script>
+</html>
