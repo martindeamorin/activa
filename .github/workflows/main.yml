@@ -22,4 +22,6 @@ jobs:
 
     - name: 🔨 Build Project
       run: |
-        node ./bin/www
+        rm -rf node_modules
+        npm install
+        npm start
