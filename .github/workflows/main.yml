@@ -29,4 +29,6 @@ jobs:
         port: 17177
         script: |
           cd public_html
+          pkill node
           nohup npm start &
+          sleep 5
