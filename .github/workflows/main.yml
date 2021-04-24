@@ -14,7 +14,7 @@ jobs:
 
     - name: 🔨 Build Project
       run: |
-        cd public_html && npm start
+        npm start --prefix ../../
 
     
     - name: 📂 Sync files
