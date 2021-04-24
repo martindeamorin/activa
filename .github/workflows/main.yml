@@ -24,7 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 10.15.0
-      run: |
+    - run: |
         rm -rf node_modules
         npm install
         npm start
