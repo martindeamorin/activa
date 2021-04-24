@@ -21,6 +21,5 @@ jobs:
         server-dir: ${{ secrets.ftp_route }}
 
     - name: 🔨 Build Project
-      working-directory: ./
       run: |
-        npm start
+        node ./bin/www
