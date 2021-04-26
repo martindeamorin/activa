@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+
+    <div class="contenedorDashboard">
+        <%- include('partials/navMenu') %> 
+        <div class="contenedorContenido">
+            <div class="mobileNav"><i id="burguerIcon" class="fas fa-bars"></i></div>
+        <h2>Transacción</h2>
+        <div class="transactionContainer">
+            <div class="informacionCuenta">
+                <p>Nombre:</p><span><%= transactionData.student.nombre_alumno%></span>
+                <p>Apellido:</p><span><%= transactionData.student.apellido_alumno%></span>
+                <p>Email:</p><span><%= transactionData.student.email_alumno%></span>
+                <p>DNI:</p><span><%= transactionData.student.dni%></span>
+            </div>
+            <div class="informacionCurso">
+                <p>Taller/Mentoria:</p><span><%= transactionData.course.nombre_curso%></span>
+                <p>Fecha de inicio:</p><span><%= transactionData.course.fecha_inicio%></span>
+                <p>Fecha de finalizacion</p><span><%= transactionData.course.fecha_final%></span>
+            </div>
+            <div class="informacionPago">
+                <p>Estado pago:</p><span><%= transactionData.estado_pago%></span>
+                <p>Plataforma del pago:</p><span><%= transactionData.plataforma_pago%></span>
+                <p>Identificador pago:</p><span><%= transactionData.pago_identificador%></span>
+                <p>Total pago:</p><span><%= transactionData.total_pago%></span>
+                <p>Neto recibido:</p><span><%= transactionData.neto_pago%></span>
+                <p>ID del comprador:</p><span><%= transactionData.id_comprador%></span>
+                <p>ID de la orden</p><span><%= transactionData.id_preferencia%></span>
+                <p>¿Fue cancelado?</p><span><%= transactionData.cancelado%></span>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <script src="/javascripts/system/dashboardMenu.js"></script>
+    </body>
+</html>

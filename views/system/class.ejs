@@ -7,6 +7,7 @@
     <%- include('partials/header') %> 
     <div class="contenedorCursos">
         <div class="courseWrapper">
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/cursos">Inicio</a> > <a style="color: #170fe4; font-weight: 500;" href="/cursos/<%=courseId%>/clases">Clases</a> > <%=classData.nombre_clase%></span>
             <h3><%=classData.nombre_clase%></h3>
             <div class="classContainer">
                 <div class="classHeader">
@@ -14,6 +15,9 @@
                     <div class="classInfo">
                         <span><%if(classData.fecha != "0000-00-00"){%>
                             <%=classData.fecha%>
+                        <%}%></span>
+                        <span><%if(classData.hora_clase != "00:00:00"){%>
+                            <%=classData.hora_clase.substring(0,5)%>(ARG)
                         <%}%></span>
                         <span><%if(classData.link_clase != ""){%>
                             <a href="<%=classData.link_clase%>" style="color: #170fe4">Link a la reunion</a>

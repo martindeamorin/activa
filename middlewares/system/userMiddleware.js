@@ -1,5 +1,7 @@
 const db = require("../../database/models/index")
 const {body} = require("express-validator")
+const { Op } = require("sequelize");
+
 
 userMiddleware = {
     registerValidation : [
@@ -71,11 +73,15 @@ userMiddleware = {
         }),
     ],
     payedCourse : async (req, res, next) =>{
-        let cursoPago = await db.CourseStudent.findOne({where : {curso_id : req.params.courseId, alumno_id : req.params.user.id, estado_pago : "paid"}})
+        console.log(req)
+        let cursoPago = await db.CourseStudent.findOne({where : {curso_id : req.params.courseId, alumno_id : req.session.user.id, estado_pago : {
+            [Op.or] : ["paid", "Completed"]
+        }}})
         if(cursoPago){
+
             return next()
         } else {
-            return res.redirect("/")
+            return res.json(cursoPago)
         }
     }
 

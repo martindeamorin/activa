@@ -38,6 +38,9 @@ router.get("/class-edit/:id/delete", userMiddleware.isLogged, userMiddleware.isA
 router.get("/class-edit/:id/file-delete", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.fileDelete)
 router.post("/course-enable", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.courseEnable)
 router.post("/class-enable", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.classEnable)
+router.get("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewTransactions)
+router.post("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.sortTransactions)
+router.get("/transactions/:id", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewTransactionDetail)
 
 
 

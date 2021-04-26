@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: 'ZxioPAhTr4'}));
 app.use(globalMiddleware.sessionRecovery)
 app.use(globalMiddleware.setHeader)
+app.use(globalMiddleware.getHeaderCourse)
 
 //cors  
 app.use(cors());

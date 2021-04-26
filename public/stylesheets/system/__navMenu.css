@@ -66,12 +66,17 @@
     text-align: center;
 }
 
-.navLink li {
+.navLink a li {
     padding: 10px;
     border-radius: 10px;
-    margin: 0 1vw;
+    margin: 1vh 1vw;
     color: black;
     background-color: #FCBB47;
+
+}
+
+.navLink a {
+    margin: 5vh 0;
 
 }
 
@@ -79,7 +84,6 @@
     background-color: white;
     color:black;
 }
-
 @media only screen and (max-width: 990px){
     .mobileNav{
         display: flex;
@@ -88,5 +92,55 @@
     .contenedorMenu{
         width: 0%;
         display: none;
+    }
+    .show{
+        width: 40%;
+    }
+    .slideShow{
+        left: 20%;
+    }
+
+    .slideHide{
+        left: -250px;
+    }
+}
+
+@media only screen and (max-width: 550px){
+
+    .show{
+        width: 60%;
+    }
+    .slideShow{
+        left: 20%;
+    }
+
+    .slideHide{
+        left: -250px;
+    }
+}
+@media only screen and (max-width: 480px){
+
+    .show{
+        width: 70%;
+    }
+    .slideShow{
+        left: 20%;
+    }
+
+    .slideHide{
+        left: -250px;
+    }
+}
+@media only screen and (max-width: 400px){
+
+    .show{
+        width: 90%;
+    }
+    .slideShow{
+        left: 25%;
+    }
+
+    .slideHide{
+        left: -250px;
     }
 }

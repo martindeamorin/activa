@@ -45,7 +45,6 @@ html, body{
 }
 
 .claseButton{
-    display: flex;
     padding: 10px;
     background-color: #86E3CE;
     border-radius: 20px;
@@ -122,7 +121,7 @@ h1{
 }
 @media only screen and (max-width: 990px){
     .contenedorDashboard{
-        width: fit-content;
+        width: 100%;
         padding: 0;
     }
 

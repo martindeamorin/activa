@@ -1,6 +1,7 @@
 const db = require("../../database/models/index")
 const fs = require('fs');
 const path = require("path");
+const {Op} = require("sequelize")
 
 const dashboardController = {
     viewIndex : (req,res) => {
@@ -242,6 +243,35 @@ const dashboardController = {
             if(data[0] == 1){
                 return res.json(200)
             }
+        })
+    },
+    viewTransactions : (req, res) => {
+        db.CourseStudent.findAll({include : [{association : "student", attributes : ["email_alumno"]},{association : "course", attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"]})
+        .then(async (result) => {
+            res.render("system/viewTransactions", {transactionData : result})
+        })
+    },
+
+    sortTransactions : (req, res) => {
+        if(req.body.limite == ""){
+            req.body.limite = 10000;
+        }
+        if(req.body.curso == "todos"){
+            db.CourseStudent.findAll({include : [{association : "student", where : {email_alumno : {[Op.like] : `%${req.body.email}%`}}, attributes : ["email_alumno"]},{association : "course", attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"], limit : Number(req.body.limite), order : [["created_at", req.body.orden]]})
+            .then((result) => {
+                res.render("system/viewTransactions", {transactionData : result})
+            })
+        } else{
+            db.CourseStudent.findAll({include : [{association : "student", where : {email_alumno : {[Op.like] : `%${req.body.email}%`}}, attributes : ["email_alumno"]},{association : "course", where : {nombre_curso : req.body.curso}, attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"], limit : Number(req.body.limite), order : [["created_at", req.body.orden]]})
+            .then((result) => {
+                res.render("system/viewTransactions", {transactionData : result})
+            })
+        }
+    },
+    viewTransactionDetail : (req, res) => {
+        db.CourseStudent.findOne({where : {id : req.params.id}, include : [{association : "student"},{association : "course"}]})
+        .then((result) => {
+            res.render("system/transactionDetail", {transactionData : result})
         })
     }
 

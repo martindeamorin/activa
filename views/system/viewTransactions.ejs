@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+
+    <div class="contenedorDashboard">
+        <%- include('partials/navMenu') %> 
+        <div class="contenedorContenido">
+            <div class="mobileNav"><i id="burguerIcon" class="fas fa-bars"></i></div>
+
+        <h2>Transacciones</h2>
+        <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > Clases</span>        
+        <div class="contenedorForm">
+            <form action="/dashboard/transactions" method="POST">
+            <div>
+            <select name="curso" style="padding: 10px; border-radius: 20px;">
+                <option value="todos">TODOS</option>
+                <%for(let courseData of courses){%>
+                    <option value="<%=courseData.nombre%>"><%=courseData.nombre%></option>
+                <%}%>
+            </select>
+            <input type="number" name="limite" id="limite" placeholder="Cantidad de resultados">
+            <input type="text" name="email" placeholder="Correo electronico">
+
+        </div>
+        <div style="margin: auto; margin-bottom: 1vh;">
+            <label><input type="radio" name="orden" value="ASC" checked>PRIMEROS REGISTROS</label>
+            <label><input type="radio" name="orden" value="DESC">ULTIMOS REGISTROS</label>
+        </div>
+            <button type="submit" class="claseButton btnDashboard">FILTRAR</button>
+        </form>
+        </div>
+
+        <table id="table-id">
+            <thead>
+                <tr>
+                    <th>EMAIL</th>
+                    <th>CURSO</th>
+                    <th>ESTADO PAGO</th>
+                    <th>VER DETALLES</th>
+                </tr>
+            </thead>
+                <tbody id="courseInfo">    
+                    <% if(!(transactionData[0])){%>
+                        <tr>
+                            <td colspan="3">No se han encontrado transacciones</td>
+                        </tr>
+                    <% }else{%>
+                        <% for(let transaction of transactionData){ %>
+                        <tr>
+                            <td><%= transaction.student.email_alumno%></td>
+                            <td><%=transaction.course.nombre_curso%></td>
+                            <td><%=transaction.estado_pago%></td>
+                            <td><a style="text-align: center;" href="/dashboard/transactions/<%=transaction.id%>"><button class="claseButton btnDashboard">DETALLE</button></a></td>
+                        </tr>
+                        <% }%>
+                    <% } %>
+                </tbody>
+        </table>
+
+    </div>
+    </div>
+    <script src="/javascripts/system/dashboardMenu.js"></script>
+    </body>
+</html>

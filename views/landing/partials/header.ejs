@@ -1,7 +1,6 @@
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <!--<h1 class="logo mr-auto"><a href="index.html">ACTIVA</a></h1> -->
       <a href="/" class="logo mr-auto"><img src="/images/landing/logo.png" alt="" class="img-fluid"></a>
 
       <nav class="nav-menu d-none d-lg-block">
@@ -10,14 +9,19 @@
           <li><a href="#about">Nosotros</a></li>
           <li class="drop-down"><a href="#popular-courses">Cursos</a>
                 <ul>
-
+                  
+                    <%for(let courseData of courses){%>
+                      <li><a href="/curso/<%=courseData.nombre%>"><%=courseData.nombre%></a></li>
+                    <%}%>
                 </ul>
           </li>
           <li><a href="#trainers">Coaches</a></li>
-         <!-- <li><a href="events.html">Events</a></li> -->
-         <!-- <li><a href="pricing.html">Pricing</a></li>-->
           <li><a href="#contacto">Contacto</a></li>
-          <li><a href="https://activacoaching.com.ar/login">Ingresar</a></li>
+          <%if(typeof nombre != "undefined"){%>
+            <li><a href="/cursos">Campus</a></li>
+          <%} else{%>
+          <li><a href="/login">Ingresar</a></li>
+          <%}%>
         </ul>
       </nav><!-- .nav-menu -->
 

@@ -35,13 +35,13 @@ module.exports = function(sequelize, dataTypes){
             type : dataTypes.STRING(50)
         },
         total_pago: {
-            type: dataTypes.STRING(20),
+            type: dataTypes.STRING(50),
         },
         neto_pago: {
-            type: dataTypes.STRING(20),
+            type: dataTypes.STRING(50),
         },
         id_comprador : {
-            type: dataTypes.STRING(20),
+            type: dataTypes.STRING(50),
         },
         id_preferencia : {
             type : dataTypes.STRING(300)
@@ -69,11 +69,13 @@ module.exports = function(sequelize, dataTypes){
 
     CourseStudent.associate = function(models){
         CourseStudent.belongsTo(models.Course,{
-            foreignKey: "curso_id"
+            foreignKey: "curso_id",
+            as : "course"
         })
         
         CourseStudent.belongsTo(models.Student,{
-            foreignKey: "alumno_id"
+            foreignKey: "alumno_id",
+            as :"student"
         })
     }   
 

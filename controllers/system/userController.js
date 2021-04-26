@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const randomstring = require("randomstring");
 
 
+
 const userController = {
     viewRegister : (req, res) => {
         res.render("system/register")
@@ -114,7 +115,7 @@ const userController = {
                 let arrayData = [];
                 let objectData = {courseImage : "", courseID : "", courseName : "", clasesVistas : 0, totalClases : 0, ultimaClase : "No has visto ninguna clase"};
                 for(let course of data.courses){
-                        if(course.CourseStudent.estado_pago == "paid"){
+                        if(course.CourseStudent.estado_pago == "paid" || course.CourseStudent.estado_pago == "Completed"){
                             objectData.courseImage = course.imagen_curso
                             objectData.courseID = course.id
                             objectData.courseName = course.nombre_curso
@@ -142,14 +143,14 @@ const userController = {
         db.Class.findAll({where : {curso_id : req.params.courseId, estado_clase : 1}})
         .then( async (response) => {
             let seenArray = []
-            let courseName = await db.Course.findByPk(req.params.id, {attributes : ["nombre_curso"]})
+            let courseName = await db.Course.findByPk(req.params.courseId, {attributes : ["nombre_curso"]})
             for(let classData of response){
                     let seenClasses = await db.StudentClass.findOne({where : {clase_id : classData.id, alumno_id : req.session.user.id}})
                     if(seenClasses){
                         seenArray.push(classData.id);
                     }
             }
-            return res.render("system/classes", {classData : response, seenArray, courseID : req.params.id, courseName})
+            return res.render("system/classes", {classData : response, seenArray, courseID : req.params.courseId, courseName})
         })
     },
     viewClass : (req, res) => {
@@ -162,7 +163,7 @@ const userController = {
                     alumno_id : req.session.user.id
                 })
             }
-            return res.render("system/class", {classData : response, moduleId : req.params.moduleId, courseId : req.params.courseId})
+            return res.render("system/class", {classData : response, courseId : req.params.courseId})
         })
     },
     viewPasswordRecovery : (req, res) => {

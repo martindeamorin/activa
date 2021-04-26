@@ -44,7 +44,7 @@ const paymentFunctions = {
 
       const info = await transporter.sendMail({
         from: "'Activa coaching' <contacto@activacoaching.com.ar>",
-        bcc: `${email}, contacto@activacoaching.com.ar`,
+        cc: `${email}, contacto@activacoaching.com.ar`,
         subject:'Notificacion sobre pago - Activa coaching',
         html: contentHTML
       })

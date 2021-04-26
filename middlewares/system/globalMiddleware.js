@@ -41,7 +41,20 @@ const globalMiddleware = {
             next()
         }
 
-    }
+    },
+    getHeaderCourse : (req, res, next) => {
+        db.Course.findAll({where : {estado_curso : 1}, attributes : ["nombre_curso", "id"]})
+        .then((result) => {
+            if(result){
+                res.locals.courses = []
+                for(let courseData of result){
+                    res.locals.courses.push({nombre : courseData.nombre_curso, id : courseData.id})
+                }
+            }
+
+            return next()
+        })
+    },
 }
 
 module.exports = globalMiddleware;
