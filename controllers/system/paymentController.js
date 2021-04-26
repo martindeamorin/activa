@@ -5,6 +5,38 @@ mercadopago.configure({
     access_token: 'APP_USR-7767459944473453-041919-da2b0362a11e964ee5469ccbd1f2fb1f-746406038'
 });  
 
+const paymentFunctions = {
+  mailNotification : async (nombre_usuario, email, estado_pago, identificador_pago) => {
+
+    let contentHTML = `
+    <h3>¡Buenos dias, ${nombre_usuario}!</h3>
+    <p>Le notificamos que su pago (id: ${identificador_pago}) ha sido </p>
+    `
+    const transporter = nodemailer.createTransport({
+      host: 'mail.activacoaching.com.ar',
+      port: 465,
+      secure: true,
+      auth : {
+        user: 'contacto@activacoaching.com.ar',
+        pass: 'Fea5k6aY82'
+      },
+    tls: {rejectUnauthorized:true}})
+
+      const info = await transporter.sendMail({
+        from: "'Activa coaching' <contacto@activacoaching.com.ar>",
+        bcc: `${email}, contacto@activacoaching.com.ar`,
+        subject:'Notificacion sobre pago - Activa coaching',
+        html: contentHTML
+      })
+    if(info.response.includes("250" || "OK")){
+        console.log(info)
+        return res.redirect(`/recuperar-contrasena/pin`)            
+    } else{
+        return res.render("system/viewRecovery", {error : "Algo salio mal, intentelo de nuevo"})
+    }
+  }
+}
+
 const paymentController = {
     viewCheckout : (req, res) => {
         res.render("system/checkout")
@@ -135,7 +167,45 @@ const paymentController = {
       .then(data => data.text())
       .then(data => {
         
-        console.log(data)
+        if(data == "VERIFIED"){
+          let Student = await db.Student.findOne({where : {email_alumno : response.payer.email}})
+          let findOrder = await db.CourseStudent.findOne({where : {alumno_id : Student.id, curso_id : response.items[0].id}})
+          if(!findOrder){
+            db.CourseStudent.create({
+              alumno_id : Student.id,
+              curso_id : response.items[0].id,
+              estado_pago : data.body.order_status,
+              cancelado : String(data.body.cancelled),
+              total_pago : data.body.total_amount,
+              neto_pago : data.body.paid_amount,
+              id_comprador : data.body.payer.id,
+              pago_identificador : data.body.id,
+              plataforma_pago : "mercadopago",
+              id_preferencia : data.body.preference_id,
+              fecha_pago : data.body.date_created
+            })
+          } else {
+            db.CourseStudent.update({
+                estado_pago : data.body.order_status,
+                cancelado : String(data.body.cancelled),
+                total_pago : data.body.total_amount,
+                neto_pago : data.body.paid_amount,
+                pago_identificador : data.body.id,
+                plataforma_pago : "mercadopago",
+                id_comprador : data.body.payer.id,
+
+                id_preferencia : data.body.preference_id,
+                fecha_pago : data.body.date_created
+              }, 
+              {
+                where : 
+                  {
+                    alumno_id : Student.id,
+                    curso_id : response.items[0].id,
+                  }
+              })
+          }
+        }
       })
       .catch(err => console.log(err))
       console.log(req.body)
