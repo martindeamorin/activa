@@ -6,6 +6,7 @@ const cryptr = new Cryptr('ZkiU32');
 const nodemailer = require('nodemailer');
 const randomstring = require("randomstring");
 
+
 const userController = {
     viewRegister : (req, res) => {
         res.render("system/register")
@@ -175,7 +176,7 @@ const userController = {
           });
         await db.Student.update({recuperar_contraseña : randomPIN},{where : {email_alumno : recoverEmail}})
         let contentHTML = `
-        <h2>Recuperar contraseña</h1>
+        <h2>Recuperar contraseña</h2>
         <p>Ingrese el siguiente codigo de seguridad en la pagina: ${randomPIN}</p>
         `
         const transporter = nodemailer.createTransport({

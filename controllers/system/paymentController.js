@@ -4,13 +4,33 @@ const fetch = require('node-fetch');
 mercadopago.configure({
     access_token: 'APP_USR-7767459944473453-041919-da2b0362a11e964ee5469ccbd1f2fb1f-746406038'
 });  
+const nodemailer = require("nodemailer")
 
 const paymentFunctions = {
-  mailNotification : async (nombre_usuario, email, estado_pago, identificador_pago) => {
+  mailNotification : async (nombre_curso, email) => {
 
     let contentHTML = `
-    <h3>¡Buenos dias, ${nombre_usuario}!</h3>
-    <p>Le notificamos que su pago (id: ${identificador_pago}) ha sido </p>
+    <h3>Pago recibido con éxito.</h3>
+    <p>¡Muchas gracias, por su compra!</p>
+    <table cellspacing='0' style='width: 100%;'> 
+        <tr> 
+            <th>Información:</th>
+            <td>${nombre_curso}</td> 
+        </tr> 
+
+        <tr style='background-color: #e0e0e0;'> 
+            <th>Estado:</th>
+            <td>Pagado</td> 
+        </tr> 
+    </table>
+
+    <p>
+        Su pago se ha procesado correctamente para ver el curso/mentoria dirijase a: https://activacoaching.com.ar/cursos
+    </p>
+
+    <p>
+        La informacion sobre la reunion semanal se encontrará en el campus dentro de cada clase, en la parte superior. Si tiene alguna consulta o no puede acceder al curso, por favor escriba a: contacto@activacoaching.com.ar
+    </p>
     `
     const transporter = nodemailer.createTransport({
       host: 'mail.activacoaching.com.ar',
@@ -29,10 +49,9 @@ const paymentFunctions = {
         html: contentHTML
       })
     if(info.response.includes("250" || "OK")){
-        console.log(info)
-        return res.redirect(`/recuperar-contrasena/pin`)            
+        console.log("Email enviado con exito")     
     } else{
-        return res.render("system/viewRecovery", {error : "Algo salio mal, intentelo de nuevo"})
+        console.log("Algo salió mal")
     }
   }
 }
@@ -106,7 +125,7 @@ const paymentController = {
                 let Student = await db.Student.findOne({where : {email_alumno : response.payer.email}})
                 let findOrder = await db.CourseStudent.findOne({where : {alumno_id : Student.id, curso_id : response.items[0].id}})
                 if(!findOrder){
-                  db.CourseStudent.create({
+                await  db.CourseStudent.create({
                     alumno_id : Student.id,
                     curso_id : response.items[0].id,
                     estado_pago : data.body.order_status,
@@ -120,7 +139,7 @@ const paymentController = {
                     fecha_pago : data.body.date_created
                   })
                 } else {
-                  db.CourseStudent.update({
+                await  db.CourseStudent.update({
                       estado_pago : data.body.order_status,
                       cancelado : String(data.body.cancelled),
                       total_pago : data.body.total_amount,
@@ -139,6 +158,10 @@ const paymentController = {
                           curso_id : response.items[0].id,
                         }
                     })
+                }
+
+                if(data.body.order_status === "paid"){
+                  paymentFunctions.mailNotification(response.items[0].title, Student.email_alumno)
                 }
               })
               .catch(err => console.log(err))
@@ -165,47 +188,49 @@ const paymentController = {
        }
       })
       .then(data => data.text())
-      .then(data => {
+      .then(async data => {
         
         if(data == "VERIFIED"){
-          console.log(data)
-          // let Student = await db.Student.findOne({where : {email_alumno : response.payer.email}})
-          // let findOrder = await db.CourseStudent.findOne({where : {alumno_id : Student.id, curso_id : response.items[0].id}})
-          // if(!findOrder){
-          //   db.CourseStudent.create({
-          //     alumno_id : Student.id,
-          //     curso_id : response.items[0].id,
-          //     estado_pago : data.body.order_status,
-          //     cancelado : String(data.body.cancelled),
-          //     total_pago : data.body.total_amount,
-          //     neto_pago : data.body.paid_amount,
-          //     id_comprador : data.body.payer.id,
-          //     pago_identificador : data.body.id,
-          //     plataforma_pago : "mercadopago",
-          //     id_preferencia : data.body.preference_id,
-          //     fecha_pago : data.body.date_created
-          //   })
-          // } else {
-          //   db.CourseStudent.update({
-          //       estado_pago : data.body.order_status,
-          //       cancelado : String(data.body.cancelled),
-          //       total_pago : data.body.total_amount,
-          //       neto_pago : data.body.paid_amount,
-          //       pago_identificador : data.body.id,
-          //       plataforma_pago : "mercadopago",
-          //       id_comprador : data.body.payer.id,
+          let paymentInfo = req.body.custom.split(",")
+          let findOrder = await db.CourseStudent.findOne({where : {alumno_id : paymentInfo[0], curso_id : paymentInfo[1]}})
+          if(!findOrder){
+          await  db.CourseStudent.create({
+              alumno_id : paymentInfo[0],
+              curso_id : paymentInfo[1],
+              estado_pago : req.body.payment_status,
+              total_pago : req.body.mc_gross,
+              neto_pago : req.body.mc_gross-req.body.mc_fee,
+              id_comprador : req.body.payer_id,
+              pago_identificador : req.body.txn_id,
+              plataforma_pago : "paypal",
+              id_preferencia : req.body.ipn_track_id,
+              fecha_pago : req.body.payment_date
+            })
+          } else {
+          await  db.CourseStudent.update({
+              alumno_id : paymentInfo[0],
+              curso_id : paymentInfo[1],
+              estado_pago : req.body.payment_status,
+              total_pago : req.body.mc_gross,
+              neto_pago : req.body.mc_gross-req.body.mc_fee,
+              id_comprador : req.body.payer_id,
+              pago_identificador : req.body.txn_id,
+              plataforma_pago : "paypal",
+              id_preferencia : req.body.ipn_track_id,
+              fecha_pago : req.body.payment_date
+              }, 
+              {
+                where : 
+                  {
+                    alumno_id : paymentInfo[0],
+                    curso_id : paymentInfo[1],
+                  }
+              })
+          }
 
-          //       id_preferencia : data.body.preference_id,
-          //       fecha_pago : data.body.date_created
-          //     }, 
-          //     {
-          //       where : 
-          //         {
-          //           alumno_id : Student.id,
-          //           curso_id : response.items[0].id,
-          //         }
-          //     })
-          // }
+          if(req.body.payment_status === "Completed"){
+            paymentFunctions.mailNotification(req.body.item_name, paymentInfo[2])
+          }
         }
       })
       .catch(err => console.log(err))
