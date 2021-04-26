@@ -168,43 +168,44 @@ const paymentController = {
       .then(data => {
         
         if(data == "VERIFIED"){
-          let Student = await db.Student.findOne({where : {email_alumno : response.payer.email}})
-          let findOrder = await db.CourseStudent.findOne({where : {alumno_id : Student.id, curso_id : response.items[0].id}})
-          if(!findOrder){
-            db.CourseStudent.create({
-              alumno_id : Student.id,
-              curso_id : response.items[0].id,
-              estado_pago : data.body.order_status,
-              cancelado : String(data.body.cancelled),
-              total_pago : data.body.total_amount,
-              neto_pago : data.body.paid_amount,
-              id_comprador : data.body.payer.id,
-              pago_identificador : data.body.id,
-              plataforma_pago : "mercadopago",
-              id_preferencia : data.body.preference_id,
-              fecha_pago : data.body.date_created
-            })
-          } else {
-            db.CourseStudent.update({
-                estado_pago : data.body.order_status,
-                cancelado : String(data.body.cancelled),
-                total_pago : data.body.total_amount,
-                neto_pago : data.body.paid_amount,
-                pago_identificador : data.body.id,
-                plataforma_pago : "mercadopago",
-                id_comprador : data.body.payer.id,
+          console.log(data)
+          // let Student = await db.Student.findOne({where : {email_alumno : response.payer.email}})
+          // let findOrder = await db.CourseStudent.findOne({where : {alumno_id : Student.id, curso_id : response.items[0].id}})
+          // if(!findOrder){
+          //   db.CourseStudent.create({
+          //     alumno_id : Student.id,
+          //     curso_id : response.items[0].id,
+          //     estado_pago : data.body.order_status,
+          //     cancelado : String(data.body.cancelled),
+          //     total_pago : data.body.total_amount,
+          //     neto_pago : data.body.paid_amount,
+          //     id_comprador : data.body.payer.id,
+          //     pago_identificador : data.body.id,
+          //     plataforma_pago : "mercadopago",
+          //     id_preferencia : data.body.preference_id,
+          //     fecha_pago : data.body.date_created
+          //   })
+          // } else {
+          //   db.CourseStudent.update({
+          //       estado_pago : data.body.order_status,
+          //       cancelado : String(data.body.cancelled),
+          //       total_pago : data.body.total_amount,
+          //       neto_pago : data.body.paid_amount,
+          //       pago_identificador : data.body.id,
+          //       plataforma_pago : "mercadopago",
+          //       id_comprador : data.body.payer.id,
 
-                id_preferencia : data.body.preference_id,
-                fecha_pago : data.body.date_created
-              }, 
-              {
-                where : 
-                  {
-                    alumno_id : Student.id,
-                    curso_id : response.items[0].id,
-                  }
-              })
-          }
+          //       id_preferencia : data.body.preference_id,
+          //       fecha_pago : data.body.date_created
+          //     }, 
+          //     {
+          //       where : 
+          //         {
+          //           alumno_id : Student.id,
+          //           curso_id : response.items[0].id,
+          //         }
+          //     })
+          // }
         }
       })
       .catch(err => console.log(err))
