@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+    <%- include('partials/header') %> 
+    <div class="contenedorLoginRegister">
+        <div class="contenedorForm">
+            <form action="/recoveryEmail" method="POST">
+                <h2>Ingrese su correo electronico</h2>
+                <p>Enviaremos un PIN para recuperar su email</p>
+                <input type="email" name="recoverEmail">
+                <%if(typeof error !== "undefined"){%>
+                <p><%=error%></p>
+                <%}%>
+                <button type="submit" class="claseButton" id="btnRegister">ENVIAR</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

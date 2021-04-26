@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+    <%- include('partials/header') %> 
+    <div class="contenedorLoginRegister">
+        <div class="contenedorForm">
+            <form action="/recuperar-contrasena/pin" method="POST">
+                <h2>Ingrese el pin enviado a su correo</h2>
+                <input type="number" name="recoveryPIN">
+                <button type="submit" class="claseButton" id="btnRegister">RECUPERAR</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

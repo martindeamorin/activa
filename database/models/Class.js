@@ -40,7 +40,10 @@ module.exports = function(sequelize, dataTypes){
         updated_at: {
             type: dataTypes.DATE(),
             "allowNull" : false
-        }
+        },
+        hora_clase :{
+            type : dataTypes.TIME
+        },
     }
 
     let config = {

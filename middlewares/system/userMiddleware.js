@@ -59,6 +59,24 @@ userMiddleware = {
 
         };
 
+    },
+    recoverValidation : [
+        body("contrasena").notEmpty().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})").withMessage("Debe ingresar una contraseña con un minimo de 8 caracteres, una minuscula, una mayuscula"),
+        body("rptContrasena", "Las contraseñas deben coincidir").custom(function(value, {req}){
+            if(value == req.body.rptContrasena){
+                return true
+            } else{
+                return false
+            }
+        }),
+    ],
+    payedCourse : async (req, res, next) =>{
+        let cursoPago = await db.CourseStudent.findOne({where : {curso_id : req.params.courseId, alumno_id : req.params.user.id, estado_pago : "paid"}})
+        if(cursoPago){
+            return next()
+        } else {
+            return res.redirect("/")
+        }
     }
 
 };

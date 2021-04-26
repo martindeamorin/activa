@@ -3,8 +3,8 @@ const bcryptjs = require("bcryptjs")
 const { validationResult } = require("express-validator");
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('ZkiU32');
-
-
+const nodemailer = require('nodemailer');
+const randomstring = require("randomstring");
 
 const userController = {
     viewRegister : (req, res) => {
@@ -110,38 +110,35 @@ const userController = {
         }}]})
         .then( async data => {
             if(data){
-            let arrayData = [];
-            let objectData = {courseImage : "", courseID : "", courseName : "", clasesVistas : 0, totalClases : 0, ultimaClase : "No has visto ninguna clase"};
-            for(let course of data.courses){
-                if(course.CourseStudent.estado_pago == "paid"){
-                    objectData.courseImage = course.imagen_curso
-                    objectData.courseID = course.id
-                    objectData.courseName = course.nombre_curso
-                for(let classData of course.classes){
-                    let classCount = await db.Class.count({where : {curso_id : course.id}})
-                    objectData.totalClases += classCount;
-                       let seenClasses = await db.StudentClass.count({where : {clase_id : classData.id, alumno_id : req.session.user.id}})
-                        objectData.clasesVistas += seenClasses
-                        if((seenClasses != 0)){
-                            let lastClassName = await db.StudentClass.findOne({where : {alumno_id : req.session.user.id, clase_id : classData.id}, order : [["created_at", "DESC"]], include : {association : "class", attributes : ["nombre_clase"]}})
-                            objectData.ultimaClase = lastClassName.class.nombre_clase
-                       
-                }
-            }
-                arrayData.push(objectData)
-                objectData = {courseImage : "", courseID : "", courseName : "", clasesVistas : 0, totalClases : 0, ultimaClase : "No has visto ninguna clase"};
-                }
+                let arrayData = [];
+                let objectData = {courseImage : "", courseID : "", courseName : "", clasesVistas : 0, totalClases : 0, ultimaClase : "No has visto ninguna clase"};
+                for(let course of data.courses){
+                        if(course.CourseStudent.estado_pago == "paid"){
+                            objectData.courseImage = course.imagen_curso
+                            objectData.courseID = course.id
+                            objectData.courseName = course.nombre_curso
+                            let classCount = await db.Class.count({where : {curso_id : data.id}})
+                            objectData.totalClases += classCount;
+                                for(let classData of course.classes){
+                                    let seenClasses = await db.StudentClass.count({where : {clase_id : classData.id, alumno_id : req.session.user.id}})
+                                    objectData.clasesVistas += seenClasses
+                                        if((seenClasses != 0)){
+                                            let lastClassName = await db.StudentClass.findOne({where : {alumno_id : req.session.user.id, clase_id : classData.id}, order : [["created_at", "DESC"]], include : {association : "class", attributes : ["nombre_clase"]}})
+                                            objectData.ultimaClase = lastClassName.class.nombre_clase
+                                        }
+                                    }
+                            arrayData.push(objectData)
+                            objectData = {courseImage : "", courseID : "", courseName : "", clasesVistas : 0, totalClases : 0, ultimaClase : "No has visto ninguna clase"};
+                    } 
                 }
                     return res.render("system/courses", {arrayData})
-                
                 }else{
                     return res.render("system/courses")
                 }
         })
-        // res.render("system/courses")
     },
     viewClasses : (req, res) => {
-        db.Class.findAll({where : {curso_id : req.params.id}})
+        db.Class.findAll({where : {curso_id : req.params.courseId, estado_clase : 1}})
         .then( async (response) => {
             let seenArray = []
             let courseName = await db.Course.findByPk(req.params.id, {attributes : ["nombre_curso"]})
@@ -167,6 +164,70 @@ const userController = {
             return res.render("system/class", {classData : response, moduleId : req.params.moduleId, courseId : req.params.courseId})
         })
     },
+    viewPasswordRecovery : (req, res) => {
+        res.render("system/viewRecovery")
+    },
+    sendRecoveryEmail : async (req, res) => {
+        let {recoverEmail} = req.body;
+        let randomPIN = randomstring.generate({
+            length: 6,
+            charset: 'numeric'
+          });
+        await db.Student.update({recuperar_contraseña : randomPIN},{where : {email_alumno : recoverEmail}})
+        let contentHTML = `
+        <h2>Recuperar contraseña</h1>
+        <p>Ingrese el siguiente codigo de seguridad en la pagina: ${randomPIN}</p>
+        `
+        const transporter = nodemailer.createTransport({
+          host: 'mail.activacoaching.com.ar',
+          port: 465,
+          secure: true,
+          auth : {
+            user: 'contacto@activacoaching.com.ar',
+            pass: 'Fea5k6aY82'
+          },
+        tls: {rejectUnauthorized:true}})
+  
+          const info = await transporter.sendMail({
+            from: "'Activa coaching' <contacto@activacoaching.com.ar>",
+            to: `${recoverEmail}`,
+            subject:'Recuperar contraseña - Activa coaching',
+            html: contentHTML
+          })
+        if(info.response.includes("250" || "OK")){
+            console.log(info)
+            return res.redirect(`/recuperar-contrasena/pin`)            
+        } else{
+            return res.render("system/viewRecovery", {error : "Algo salio mal, intentelo de nuevo"})
+        }
+    },
+    viewRecoveryPin : (req, res) =>{
+        res.render("system/setPIN")
+    },
+    recoveryPin : async (req, res) =>{
+       let usuarioRecuperar = await db.Student.findOne({where : {recuperar_contraseña : req.body.recoveryPIN}})
+        if(usuarioRecuperar){
+            req.session.emailRecover = cryptr.encrypt(usuarioRecuperar.email_alumno)
+            res.redirect("/recuperar-contrasena/modificar")
+        }
+    },
+    viewChangePassword : (req, res) => {
+        res.render("system/changePassword")
+    },
+    changePassword : async (req, res) => {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+        console.log(errors.errors)
+        return res.render("system/changePassword", {errors : errors.errors})
+        } else {
+        let resultChange = await db.Student.update({recuperar_contraseña : "", contrasena : bcryptjs.hashSync(req.body.contrasena, 10)}, {where : {email_alumno : cryptr.decrypt(req.session.emailRecover)}})
+        if(resultChange[0] === 1){
+            req.session.destroy()
+        }
+        return res.redirect("/login")
+        }
+    },
+
     logout : (req, res) => {
         req.session.destroy();
         res.clearCookie('recordar')

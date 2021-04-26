@@ -18,8 +18,11 @@ const dashboardController = {
             descripcion_curso : req.body.descripcionCurso,
             descripcion_corta : req.body.descripcionCorta,
             dia_curso : req.body.diaCurso,
-            imagen_curso : req.files[0].filename,
+            imagen_curso : req.files[1].filename,
             hora_curso : req.body.horaCurso,
+            instructora : req.body.instructora,
+            costo_pesos : req.body.precioCursoPesos,
+            imagen_landing :req.files[0].filename,
             estado_curso : 0
         })
         .then( () => {
@@ -27,52 +30,62 @@ const dashboardController = {
         }
         )
     },
+    courseDelete : (req, res) => {
+        db.Course.findByPk(req.params.id, {
+            include : [{association : "classes", include : [{ association : "files"}]}]
+        })
+        .then( async courseData => {
+            if(courseData.classes[0]){
+                for(let classData of courseData.classes){
+                    await db.StudentClass.destroy({where : {clase_id : classData.id}})
+                    if(classData.files[0]){
+                        for(let file of classData.files){
+                            if(file.tipo_archivo == "archivo"){
+                                fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                            }
+                        }
+                    }
+            }
+            }
+            await db.CourseStudent.destroy({where : {curso_id : req.params.id}})
+            await db.Course.destroy({where : {id : req.params.id}})
+            return res.redirect("/dashboard/course-create")
+        })
+    },
     viewCourseEdit : (req, res) => {
         db.Course.findByPk(req.params.id,{
-            include : "modules"
+            include : "classes"
         })
         .then(courseData => {
             res.render("system/courseEdit", {courseData})
         })
     },
-    courseDelete : (req, res) => {
-        db.Course.findByPk(req.params.id, {
-            include : [{association : "modules", include : [{association : "classes", include : [{ association : "files"}]}]}]
-        })
-        .then( courseData => {
-            if(courseData.modules[0]){
-            for(let i = 0; i < courseData.modules.length; i++){
-                if(courseData.modules[i].classes[0]){
-                    for(let classData of courseData.modules[i].classes){
-                        if(classData.files[0]){
-                            for(let file of classData.files){
-                                if(file.tipo_archivo == "archivo"){
-                                fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-            }
-            }
-            db.Course.destroy({where : {id : req.params.id}})
-            .then(() => {
-                res.redirect("/dashboard/course-create")
-            })
-        })
-    },
     courseEdit : (req, res) => {
         if(req.files[0]){
-            db.Course.update({
-                imagen_curso : req.files[0].filename
-            },
-            {
-                where : 
-                {
-                    id : req.params.id
+            for(let i = 0;  i < req.files.length; i++){
+                if(req.files[i].fieldname == "rutaImagenLanding"){
+                    db.Course.update({
+                        imagen_landing: req.files[i].filename
+                    },
+                    {
+                        where : 
+                        {
+                            id : req.params.id
+                        }
+                    })
+                } else {
+                    db.Course.update({
+                        imagen_curso: req.files[i].filename
+                    },
+                    {
+                        where : 
+                        {
+                            id : req.params.id
+                        }
+                    })
                 }
-            })
+            }
+
         }
         db.Course.update({
             nombre_curso : req.body.nombreCurso,
@@ -83,7 +96,8 @@ const dashboardController = {
             descripcion_corta : req.body.descripcionCorta,
             dia_curso : req.body.diaCurso,
             hora_curso : req.body.horaCurso,
-            estado_curso : 1
+            instructora : req.body.instructora,
+            costo_pesos : req.body.precioCursoPesos,
         },
         {
             where : 
@@ -96,71 +110,20 @@ const dashboardController = {
             res.redirect("/dashboard/course-edit/" + req.params.id)
         })
     },
-    moduleCreate : (req,res) => {
-        db.Module.create({
-            nombre_modulo : req.body.nombreModulo,
-            fecha_inicio : req.body.fechaInicioModulo,
-            fecha_final : req.body.fechaFinalModulo,
-            curso_id : req.params.id,
-            estado_modulo: 1
-        })
-        .then( () =>{
-            res.redirect("/dashboard/course-edit/" + req.params.id)
-        })
-    },
-    viewModuleEdit : (req, res) => {
-        db.Module.findByPk(req.params.id, {include : "classes"})
-        .then((moduleData) => {
-            res.render("system/moduleEdit", {moduleData})
-        })
-    },
-    moduleEdit : (req, res) => {
-        db.Module.update({
-            nombre_modulo : req.body.nombreModulo,
-            fecha_inicio : req.body.fechaInicioModulo,
-            fecha_final : req.body.fechaFinalModulo,
-        }, {
-            where : { id : req.params.id}
-        })
-        .then(() => {
-            res.redirect("/dashboard/module-edit/" + req.params.id)
-        }) 
-    },
-    moduleDelete : (req, res) => {
-        db.Module.findByPk(req.params.id, {
-            include : [{association : "classes", include : [{ association : "files"}]}]
-        })
-        .then( moduleData => {
-            if(moduleData.classes[0]){
-            for(let i = 0; i < moduleData.classes.length; i++){
-                if(moduleData.classes[i].files[0]){
-                    for(let file of moduleData.classes[i].files){
-                        if(file.tipo_archivo == "archivo"){
-                        fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
-                        }
-                    }
-                }
-            }
-            }
-            db.Module.destroy({where : {id : req.params.id}})
-            .then(() => {
-                res.redirect("/dashboard/course-edit/" + moduleData.curso_id)
-            })
-        })
-    },
     classCreate : (req, res) => {
         db.Class.create({
             nombre_clase : req.body.nombreClase,
-            modulo_id : req.params.id,
+            curso_id : req.params.id,
             fecha : req.body.fechaClase,
             link_clase : req.body.linkClase,
             contrasena_clase : req.body.contrasenaClase,
             descripcion_clase : req.body.descripcionClase,
-            estado_clase : 1
+            hora_clase : req.body.horaClase,
+            estado_clase : 0
         })
         .then(() => {
-            res.redirect("/dashboard/module-edit/" + req.params.id)
-        })
+            res.redirect("/dashboard/course-edit/" + req.params.id)
+        })  
     },
     viewClassEdit : (req, res) => {
         db.Class.findByPk(req.params.id, {include : {association : "files" }})
@@ -175,6 +138,8 @@ const dashboardController = {
             link_clase : req.body.linkClase,
             contrasena_clase : req.body.contrasenaClase,
             descripcion_clase : req.body.descripcionClase,
+            hora_clase : req.body.horaClase,
+
         }, {
             where : { id : req.params.id}
         })
@@ -186,7 +151,7 @@ const dashboardController = {
         db.Class.findByPk(req.params.id, {
             include : [{ association : "files"}]
         })
-        .then( classData => {
+        .then( async classData => {
             if(classData.files[0]){
                 for(let file of classData.files){
                     if(file.tipo_archivo == "archivo"){
@@ -194,10 +159,11 @@ const dashboardController = {
                     }
                 }
             }
-            db.Class.destroy({where : {id : req.params.id}})
-            .then(() => {
-                res.redirect("/dashboard/module-edit/" + classData.modulo_id)
-            })
+            await db.StudentClass.destroy({where : {clase_id : req.params.id}})
+            await db.Class.destroy({where : {id : req.params.id}})
+            
+            res.redirect("/dashboard/course-edit/" + classData.curso_id)
+            
         })
     },
     fileUpload : (req, res) => {
@@ -216,7 +182,7 @@ const dashboardController = {
                 tipo_archivo : "video"
             })
             .then( () => {
-                res.redirect("/dashboard/class-edit/" + req.params.id)
+               return res.redirect("/dashboard/class-edit/" + req.params.id)
             })
         } else if(req.files[0]){
             let filesLoad = req.files.map( (element) => {
@@ -226,8 +192,9 @@ const dashboardController = {
                     tipo_archivo : "archivo"
                 })
             })
-            Promise.all([filesLoad]).then(() => {
-                res.redirect("/dashboard/class-edit/" + req.params.id)
+            Promise.all([filesLoad])
+            .then(() => {
+               return res.redirect("/dashboard/class-edit/" + req.params.id)
             })
 
         } else {
@@ -237,7 +204,7 @@ const dashboardController = {
                 tipo_archivo : "video"
             })
             .then( () => {
-                res.redirect("/dashboard/class-edit/" + req.params.id)
+               return res.redirect("/dashboard/class-edit/" + req.params.id)
             })
         }
     },
@@ -253,7 +220,7 @@ const dashboardController = {
             })
         })
     },
-    classEnable : (req, res) => {
+    courseEnable : (req, res) => {
         db.Course.update({
             estado_curso : req.body.habilitar
         },
@@ -265,11 +232,11 @@ const dashboardController = {
             }
         })
     },
-    moduleEnable : (req, res) => {
-        db.Module.update({
-            estado_modulo : req.body.habilitar
+    classEnable : (req, res) => {
+        db.Class.update({
+            estado_clase : req.body.habilitar
         },
-            {where : {nombre_modulo : req.body.nombre, curso_id : req.body.courseID}
+            {where : {nombre_clase : req.body.nombre, curso_id : req.body.courseID}
         })
         .then((data) => {
             if(data[0] == 1){

@@ -25,26 +25,18 @@
 
         <div class="row">
           <div class="col-lg-8">
-            <img src="/images/<%=courseData.imagen_curso%>" class="img-fluid" alt="">
+            <img src="/images/<%=courseData.imagen_landing%>" class="img-fluid" alt="">
             <h3><%=courseData.nombre_curso%></h3>
-            <p>
-              <!-- Filosofía de Louise Hay y Mindfulnnes: Público en general. Un encuentro con uno mismo con técnicas fáciles que te permiten conocerte, liderarte y crear así ambientes de amor, paz, que traen para ti salud y felicidad.          
-              
-              Lo que esperamos que te lleves de este taller es: 
-              - Aprender a amarte 
-              - Generar autoestima 
-              - Conectar con un universo de posibilidades propias 
-              - Conectar con el aquí y ahora: Respiración/relajación/ meditación 
-              - Conocer y crear pensamientos que te potencien 
-              - Relacionar lo que pasa con tu cuerpo y las emociones  -->
-              <%=courseData.descripcion_curso%>
-            </p>
+            <div id="descripcion_curso">
+              <%-courseData.descripcion_curso%>
+
+            </div>
           </div>
           <div class="col-lg-4">
 
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Capacitador</h5>
-              <p><a>María Rosa Buffa PCC</a></p>
+              <p><a><%=courseData.instructora%></a></p>
             </div>
 
             <div class="course-info d-flex justify-content-between align-items-center">
@@ -59,7 +51,7 @@
 
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Valor del curso</h5>
-              <p>US$<%=courseData.costo_curso%></p>
+              <p>$<%=courseData.costo_pesos%> - US$<%=courseData.costo_curso%></p>
             </div>
 
             <div class="course-info d-flex justify-content-between align-items-center">
@@ -133,11 +125,11 @@
                 <%}%>" id="tab-<%=i+1%>">
                 <div class="row">
                   <div class="col-lg-8 details order-2 order-lg-1">  
-                  <p class="font-italic" ><%=classData[i].descripcion_clase%></p>
+                  <%-classData[i].descripcion_clase%>
 
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="/images/amarse-2.jpg" alt="" class="img-fluid">
+                    <img src="/images/<%=courseData.imagen_curso%>" alt="" class="img-fluid">
                   </div>
                 </div>
               </div>
@@ -188,7 +180,6 @@
   <script src="/javascripts/landing/main.js"></script>
   <script src="/javascripts/landing/checkout.js"></script>
   <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
-
 
 </body>
 

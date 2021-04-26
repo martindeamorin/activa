@@ -9,6 +9,7 @@
       margin-top: 3vh;
       background-color: white;
       border-radius: 10px;
+      margin-bottom: 1.5vh;
   }
   th,
   td {
@@ -18,7 +19,7 @@
   }
 
   td i {
-    margin: 0 0.5vw;
+    margin: 0 1vw;
   }
   th{
     text-align: center;

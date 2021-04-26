@@ -28,9 +28,9 @@ const paymentController = {
           {
             title: data.nombre_curso,
             description : data.descripcion_corta,
-            unit_price: data.costo_curso,
+            unit_price: data.costo_pesos,
             quantity: 1,
-            currency_id : "USD",
+            currency_id : "ARS",
             id : data.id
           }
         ],

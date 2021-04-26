@@ -5,13 +5,14 @@
     <div class="contenedorDashboard">
         <%- include('partials/navMenu') %> 
         <div class="contenedorContenido">
-            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > Módulos</span>
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > Clases</span>
             <h2>Editar detalles de <%= courseData.nombre_curso%></h2>
             <div class="contenedorForm">
                 <form action="/dashboard/course-edit/<%=courseData.id%>" method="POST" enctype="multipart/form-data">
+                    <input type="text" name="nombreCurso" placeholder="Nombre" value="<%= courseData.nombre_curso%>">
                     <div>
-                        <input type="text" name="nombreCurso" placeholder="Nombre" value="<%= courseData.nombre_curso%>">
                         <input type="number" name="precioCurso" placeholder="Precio" value="<%= courseData.costo_curso%>">
+                        <input type="number" name="precioCursoPesos" placeholder="Precio (ARS)" value="<%=courseData.costo_pesos%>">
                     </div>
                     <div>
                         <input value="<%= courseData.fecha_inicio%>" placeholder="Fecha de inicio" name="fechaInicioCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
@@ -21,58 +22,102 @@
                         <input type="text" value="<%= courseData.dia_curso%>" name="diaCurso" placeholder="Dia de reunion">
                         <input name="horaCurso" value="<%= courseData.hora_curso%>" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
                     </div>
+
+                    <select name="instructora" class="select-css">
+                            <option value="María Rosa Buffa PCC y Estefanía Amadío"
+                            <%if(courseData.instructora == "María Rosa Buffa PCC y Estefanía Amadío"){%>
+                                selected
+                                <%}%>>María Rosa Buffa PCC y Estefanía Amadío</option>
+                            <option value="María Rosa Buffa PCC"
+                            <%if(courseData.instructora == "María Rosa Buffa PCC"){%>
+                                selected
+                                <%}%>>María Rosa Buffa PCC</option>
+                            <option value="Estefanía Amadío"
+                            <%if(courseData.instructora == "Estefanía Amadío"){%>
+                                selected
+                                <%}%>>Estefanía Amadío</option>
+                    </select>
                     <textarea placeholder="Descripcion corta" name="descripcionCorta" cols="30" rows="5"><%= courseData.descripcion_corta%></textarea>
-                    <textarea placeholder="Descripcion" name="descripcionCurso" id="" cols="30" rows="10"><%= courseData.descripcion_curso%></textarea>
+                    <textarea placeholder="Descripcion" name="descripcionCurso" id="descripcion_curso" cols="30" rows="10"><%= courseData.descripcion_curso%></textarea>
                     <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
-                        <i class="fa fa-cloud-upload"></i><span>Subir imagen</span>
-                        <input type="file" name="rutaImagen" placeholder="Subir Imágenes" id="imagenCurso" multiple>
+                        <i class="fa fa-cloud-upload"></i><span>Subir imagen landing</span>
+                        <input type="file" name="rutaImagenLanding" placeholder="Subir Imágenes" id="imagenLanding" multiple>
                     </label>
-                    <img class="showImg" style="display: block;" src="/images/<%=courseData.imagen_curso%>">
+                    <img class="showImgLanding" style="display: block;" src="/images/<%=courseData.imagen_landing%>">
+
+                    <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
+                        <i class="fa fa-cloud-upload"></i><span>Subir imagen campus</span>
+                        <input type="file" name="rutaImagenCampus" placeholder="Subir Imágenes" id="imagenCampus" multiple>
+                    </label>
+                    <img class="showImgCampus" style="display: block;" src="/images/<%=courseData.imagen_curso%>">
                     <button class="claseButton" type="submit">Editar</button>
                 </form>
             </div>
-            <h2>Agregar módulos a <%= courseData.nombre_curso%></h2>
+            <h2>Agregar clases/video a <%= courseData.nombre_curso%></h2>
             <div class="contenedorForm">
-            <form action="/dashboard/course-edit/<%=courseData.id%>/module-create" method="POST">
-                    <input type="text" name="nombreModulo" placeholder="Nombre">
-                <div>
-                    <input placeholder="Fecha de inicio" name="fechaInicioModulo" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
-                    <input placeholder="Fecha de finalizacion" name="fechaFinalModulo" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
-                </div>
-                <button class="claseButton">Crear</button>
-            </form>
+                <form action="/dashboard/course-edit/<%=courseData.id%>/class-create" method="POST">
+                        <input type="text" name="nombreClase" placeholder="Ingrese numero de clase o video (esto se mostrara en la landing)">
+                        <textarea cols="50" rows="5" id="descripcion_clase" placeholder="Enliste los temas de la clase o video (esto se mostrara en la landing)" name="descripcionClase"></textarea>
+                        <p style="font-size: small; margin: auto;">Los siguientes campos se mostraran dentro del campus</p>
+                        <div>
+                        <input placeholder="Fecha" name="fechaClase" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                        <input name="horaClase" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
+                        </div>
+                        <div>
+                        <input type="text" name="linkClase" placeholder="Link de clase">
+                        <input type="text" name="contrasenaClase" placeholder="Contraseña clase">
+                        </div>
+
+                    <button class="claseButton" type="submit">Crear</button>
+                </form>
             </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>NOMBRE</th>
-                    <th>MOSTRAR</th>
-                    <th>MODIFICAR</th>
-                </tr>
-            </thead>
-                <tbody id="moduleInfo">
-                    <input type="hidden" value="<%=courseData.id%>" id="courseID">
-                    <% if(!(courseData.modules[0])){%>
-                        <tr>
-                            <td colspan="3">Esta clase no tiene modulos</td>
-                        </tr>
-                    <% }else{%>
-                        <% for(let moduleData of courseData.modules){%>
-                        <tr>
-                            <td><%= moduleData.nombre_modulo%></td>
-                            <td><input class="habilitar" type="checkbox" <%if(moduleData.estado_modulo === true){%>
-                                checked="true"
-                                <%}%>></td>
-                            <td><a href="/dashboard/module-edit/<%=moduleData.id%>"><i class="fas fa-pencil-alt"></i></a><a href="/dashboard/module-edit/<%=moduleData.id%>/delete"><i class="fas fa-trash-alt"></i></a></i></td>
-                        </tr>
-                        <% }%>
-                    <% } %>
-                </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>MOSTRAR</th>
+                        <th>MODIFICAR</th>
+                    </tr>
+                </thead>
+                    <tbody id="classInfo">
+                    <input type="hidden" value="<%=courseData.id%>" id="courseID">   
+                        <% if(!(courseData.classes[0])){%>
+                            <tr>
+                                <td colspan="3">Este curso no tiene clases</td>
+                            </tr>
+                        <% }else{%>
+                            <% for(let classData of courseData.classes){%>
+                            <tr>
+                                <td><%= classData.nombre_clase%></td>
+                                <td><input class="habilitar" type="checkbox" <%if(classData.estado_clase === true){%>
+                                    checked="true"
+                                    <%}%>></td>
+                                <td><a href="/dashboard/class-edit/<%=classData.id%>"><i class="fas fa-pencil-alt"></i></a><a href="/dashboard/class-edit/<%=classData.id%>/delete"><i class="fas fa-trash-alt"></i></a></i></td>
+                            </tr>
+                            <% }%>
+                        <% } %>
+                    </tbody>
+            </table>
     </div>
         </div>
     </div>
     <script src ="/javascripts/system/courseCreate.js"></script>
-
+    <script src="https://cdn.tiny.cloud/1/p35siw4k2u9gzlko3eoluo3y49m0tjhjpv8m969b8c8ov6tn/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#descripcion_curso',
+            plugins: 'lists',
+            toolbar: 'undo redo bullist paragraph formatselect bold',
+            lists_indent_on_tab: false,
+            menubar : ""
+        });
+        tinymce.init({
+            selector: '#descripcion_clase',
+            plugins: 'lists',
+            toolbar: 'undo redo bullist',
+            lists_indent_on_tab: false,
+            menubar : ""
+        });
+    </script>
 </body>
 </html>

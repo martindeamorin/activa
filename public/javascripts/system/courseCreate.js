@@ -1,22 +1,41 @@
 
 window.addEventListener("load", () => {
 
-  function readURL(input) {
+  function readURLLanding(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      
+      console.log(input)
       reader.onload = function(e) {
-        document.querySelector('.showImg').src=e.target.result
-        document.querySelector('.showImg').style.display = "block"
+        document.querySelector('.showImgLanding').src=e.target.result
+        document.querySelector('.showImgLanding').style.display = "block"
       }
       
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
   
-  document.getElementById("imagenCurso").addEventListener("change", () => {
-      readURL(document.getElementById("imagenCurso"))
+  document.getElementById("imagenLanding").addEventListener("change", () => {
+      readURLLanding(document.getElementById("imagenLanding"))
   });
+  function readURLCampus(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        document.querySelector('.showImgCampus').src=e.target.result
+        document.querySelector('.showImgCampus').style.display = "block"
+      }
+      
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+  
+  document.getElementById("imagenCampus").addEventListener("change", () => {
+      readURLCampus(document.getElementById("imagenCampus"))
+  });
+
+
+
   let habilitarCheck = document.querySelectorAll(".habilitar")
   for(let habilitar of habilitarCheck){
 
@@ -41,9 +60,9 @@ window.addEventListener("load", () => {
         .then(data => data.json())
         .then(data => console.log(data))
         .catch(err => console.log(err))
-      } else if(document.querySelector("#moduleInfo")){
+      } else if(document.querySelector("#classInfo")){
         bodyPost.courseID = document.querySelector("#courseID").value
-        fetch("https://activacoaching.com.ar/dashboard/module-enable", {
+        fetch("https://activacoaching.com.ar/dashboard/class-enable", {
           headers : {
             "Content-Type" : "application/json"
           },
@@ -57,5 +76,6 @@ window.addEventListener("load", () => {
 
     })
   }
+
 
 })

@@ -11,6 +11,9 @@ module.exports = function(sequelize, dataTypes){
             type : dataTypes.STRING(50),
             "allowNull" : false
         },
+        instructora : {
+            type : dataTypes.STRING(100)
+        },
         fecha_inicio : {
             type : dataTypes.DATEONLY,
         },
@@ -18,6 +21,9 @@ module.exports = function(sequelize, dataTypes){
             type : dataTypes.DATEONLY,
         },
         costo_curso : {
+            type : dataTypes.INTEGER
+        },
+        costo_pesos : {
             type : dataTypes.INTEGER
         },
         descripcion_curso : {
@@ -42,7 +48,9 @@ module.exports = function(sequelize, dataTypes){
         imagen_curso : {
             type : dataTypes.STRING(100)
         },
- 
+        imagen_landing : {
+            type : dataTypes.STRING(100)
+        },
         created_at: {
             type: dataTypes.DATE(),
             "allowNull" : false

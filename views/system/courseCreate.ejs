@@ -2,6 +2,7 @@
 <html lang="en">
     <%- include('partials/dashboardHead') %> 
 <body>
+
     <div class="contenedorDashboard">
         <%- include('partials/navMenu') %> 
         <div class="contenedorContenido">
@@ -9,25 +10,39 @@
             <h2>Ingrese los datos del nuevo curso</h2>
             <div class="contenedorForm">
                 <form action="/dashboard/course-create" method="POST" enctype="multipart/form-data">
+                    <input type="text" name="nombreCurso" placeholder="Nombre">
+
                     <div>
-                        <input type="text" name="nombreCurso" placeholder="Nombre">
-                        <input type="number" name="precioCurso" placeholder="Precio">
+                        <input type="number" name="precioCurso" placeholder="Precio (USD)">
+                        <input type="number" name="precioCursoPesos" placeholder="Precio (ARS)">
                     </div>
-                    <div>
+                    <div style="margin: auto;">
                         <input placeholder="Fecha de inicio" name="fechaInicioCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                         <input placeholder="Fecha de finalizacion" name="fechaFinalCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                     </div>
-                    <div>
+                    <div style="margin: auto;">
                         <input type="text" name="diaCurso" placeholder="Dia de reunion">
                         <input name="horaCurso" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
                     </div>
+                        <select name="instructora" class="select-css">
+                            <option value="María Rosa Buffa PCC y Estefanía Amadío">María Rosa Buffa PCC y Estefanía Amadío</option>
+                            <option value="María Rosa Buffa PCC">María Rosa Buffa PCC</option>
+                            <option value="Estefanía Amadío">Estefanía Amadío</option>
+                        </select>
+                    
+
                     <textarea placeholder="Descripcion corta (es lo que se muestra en la landing)" name="descripcionCorta" cols="30" rows="5"></textarea>
-                    <textarea placeholder="Descripcion larga (es lo que se muestra en el detalle del curso)" name="descripcionCurso" id="" cols="30" rows="10"></textarea>
+                    <textarea placeholder="Descripcion larga (es lo que se muestra en el detalle del curso)" name="descripcionCurso" id="descripcion_curso" cols="30" rows="10"></textarea>
                     <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
-                        <i class="fa fa-cloud-upload"></i><span>Subir imagen</span>
-                        <input type="file" name="rutaImagen" placeholder="Subir Imágenes" id="imagenCurso" multiple>
+                        <i class="fa fa-cloud-upload"></i><span>Subir imagen landing</span>
+                        <input type="file" name="rutaImagenLanding" placeholder="Subir Imágenes" id="imagenLanding" multiple>
                     </label>
-                    <img class="showImg">
+                    <img class="showImgLanding">
+                    <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
+                        <i class="fa fa-cloud-upload"></i><span>Subir imagen campus</span>
+                        <input type="file" name="rutaImagenCampus" placeholder="Subir Imágenes" id="imagenCampus" multiple>
+                    </label>
+                    <img class="showImgCampus">
                     <button class="claseButton btnDashboard"  type="submit">CREAR</button>
                 </form>
             </div>
@@ -61,5 +76,16 @@
     </div>
     <script src="/javascripts/system/dashboardMenu.js"></script>
     <script src ="/javascripts/system/courseCreate.js"></script>
+    <script src="https://cdn.tiny.cloud/1/p35siw4k2u9gzlko3eoluo3y49m0tjhjpv8m969b8c8ov6tn/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#descripcion_curso',
+            plugins: 'lists',
+            toolbar: 'undo redo bullist paragraph formatselect bold',
+            lists_indent_on_tab: false,
+            menubar : ""
+        });
+
+    </script>
 </body>
 </html>
