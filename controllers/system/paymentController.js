@@ -160,7 +160,8 @@ const paymentController = {
                     })
                 }
 
-                if(data.body.order_status === "paid"){
+                if(data.body.order_status == "paid"){
+                  console.log("ENVIANDO MAIL")
                   paymentFunctions.mailNotification(response.items[0].title, Student.email_alumno)
                 }
               })
