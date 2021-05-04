@@ -111,3 +111,9 @@ input:not([type="checkbox"]){
 .contenedorVideos input{
     width: 300px;
 }
+
+#botonFiles{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

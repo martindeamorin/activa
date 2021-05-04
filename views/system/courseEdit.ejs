@@ -5,7 +5,7 @@
     <div class="contenedorDashboard">
         <%- include('partials/navMenu') %> 
         <div class="contenedorContenido">
-            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > Clases</span>
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > <%= courseData.nombre_curso%></span>
             <h2>Editar detalles de <%= courseData.nombre_curso%></h2>
             <div class="contenedorForm">
                 <form action="/dashboard/course-edit/<%=courseData.id%>" method="POST" enctype="multipart/form-data">

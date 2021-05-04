@@ -127,7 +127,7 @@ const dashboardController = {
         })  
     },
     viewClassEdit : (req, res) => {
-        db.Class.findByPk(req.params.id, {include : {association : "files" }})
+        db.Class.findByPk(req.params.id, {include : [{association : "files" }, {association : "course", attributes : ["id", "nombre_curso"]}]})
         .then((classData) => {
             res.render("system/classEdit", {classData})
         })

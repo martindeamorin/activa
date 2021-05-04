@@ -5,7 +5,7 @@
     <div class="contenedorDashboard">
         <%- include('partials/navMenu') %> 
         <div class="contenedorContenido">
-
+            <span class="navigation"><a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-create">Inicio</a> > <a style="color: #170fe4; font-weight: 500;" href="/dashboard/course-edit/<%=classData.course.id%>"><%=classData.course.nombre_curso%></a> > <%=classData.nombre_clase%></span>
             <h2>Editar clase <%=classData.nombre_clase%></h1>
             <div class="contenedorForm">
                 <form action="/dashboard/class-edit/<%=classData.id%>" method="POST">
@@ -42,7 +42,9 @@
                 <input type="text" name="urlVideo" placeholder="URL del video" form="files">
             </div>
             </div>
-            <button type="submit" class="claseButton" form="files">Subir</button>
+            <div id="botonFiles">
+            <button type="submit" class="claseButton btnDashboard" form="files">Subir</button>
+            </div>
             <table>
                 <thead>
                     <tr>
