@@ -7,7 +7,7 @@
             const mp = new MercadoPago('APP_USR-5206199b-33fa-4500-b86a-e5bbb6036be3', {
                 locale: 'es-AR'
           });
-                fetch("http://activacoaching.com.ar/mp-checkout", {
+                fetch("https://activacoaching.com.ar/mp-checkout", {
                     method : "POST",
                     headers : {
                         "Content-Type" : "application/json",
