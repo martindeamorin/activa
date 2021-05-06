@@ -4,7 +4,7 @@
             window.localStorage.removeItem("returnURL")
         }
         if(!document.querySelector("#login")){
-            const mp = new MercadoPago('APP_USR-80bbde56-b4ea-4e88-bf9d-a6f8e38ab686', {
+            const mp = new MercadoPago('APP_USR-5206199b-33fa-4500-b86a-e5bbb6036be3', {
                 locale: 'es-AR'
           });
                 fetch("http://activacoaching.com.ar/mp-checkout", {
@@ -16,7 +16,6 @@
                 })
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response)
                     mp.checkout({
                         preference: {
                             id: response.id

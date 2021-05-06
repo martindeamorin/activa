@@ -185,13 +185,13 @@ const userController = {
           port: 465,
           secure: true,
           auth : {
-            user: 'contacto@activacoaching.com.ar',
+            user: 'info@activacoaching.com.ar',
             pass: 'Fea5k6aY82'
           },
         tls: {rejectUnauthorized:true}})
   
           const info = await transporter.sendMail({
-            from: "'Activa coaching' <contacto@activacoaching.com.ar>",
+            from: "'Activa coaching' <info@activacoaching.com.ar>",
             to: `${recoverEmail}`,
             subject:'Recuperar contraseña - Activa coaching',
             html: contentHTML

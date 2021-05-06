@@ -2,7 +2,7 @@ const db = require("../../database/models/index")
 const mercadopago = require ('mercadopago');
 const fetch = require('node-fetch');
 mercadopago.configure({
-    access_token: 'APP_USR-7767459944473453-041919-da2b0362a11e964ee5469ccbd1f2fb1f-746406038'
+    access_token: 'APP_USR-5765622595730064-050520-35855fa999c8ebbfd22e50df278b4515-753205679'
 });  
 const nodemailer = require("nodemailer")
 
@@ -37,14 +37,14 @@ const paymentFunctions = {
       port: 465,
       secure: true,
       auth : {
-        user: 'contacto@activacoaching.com.ar',
+        user: 'info@activacoaching.com.ar',
         pass: 'Fea5k6aY82'
       },
     tls: {rejectUnauthorized:true}})
 
       const info = await transporter.sendMail({
-        from: "'Activa coaching' <contacto@activacoaching.com.ar>",
-        cc: `${email}, contacto@activacoaching.com.ar`,
+        from: "'Activa coaching' <info@activacoaching.com.ar>",
+        cc: `${email}, info@activacoaching.com.ar`,
         subject:'Notificacion sobre pago - Activa coaching',
         html: contentHTML
       })
@@ -115,7 +115,7 @@ const paymentController = {
           case "merchant_order":
             fetch(`https://api.mercadopago.com/checkout/preferences/${data.body.preference_id}`, {
                 headers: {
-                  "Authorization": "Bearer APP_USR-7767459944473453-041919-da2b0362a11e964ee5469ccbd1f2fb1f-746406038",
+                  "Authorization": "Bearer APP_USR-5765622595730064-050520-35855fa999c8ebbfd22e50df278b4515-753205679",
                   "Content-Type": "application/json",
                 },
                 method : "GET"

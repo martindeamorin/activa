@@ -246,10 +246,8 @@ const dashboardController = {
         })
     },
     viewTransactions : (req, res) => {
-        db.CourseStudent.findAll({include : [{association : "student", attributes : ["email_alumno"]},{association : "course", attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"]})
-        .then(async (result) => {
-            res.render("system/viewTransactions", {transactionData : result})
-        })
+
+            res.render("system/viewTransactions")
     },
 
     sortTransactions : (req, res) => {
@@ -259,12 +257,12 @@ const dashboardController = {
         if(req.body.curso == "todos"){
             db.CourseStudent.findAll({include : [{association : "student", where : {email_alumno : {[Op.like] : `%${req.body.email}%`}}, attributes : ["email_alumno"]},{association : "course", attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"], limit : Number(req.body.limite), order : [["created_at", req.body.orden]]})
             .then((result) => {
-                res.render("system/viewTransactions", {transactionData : result})
+                return res.json({transactionData : result})
             })
         } else{
             db.CourseStudent.findAll({include : [{association : "student", where : {email_alumno : {[Op.like] : `%${req.body.email}%`}}, attributes : ["email_alumno"]},{association : "course", where : {nombre_curso : req.body.curso}, attributes : ["nombre_curso"]}], attributes : ["estado_pago", "id"], limit : Number(req.body.limite), order : [["created_at", req.body.orden]]})
             .then((result) => {
-                res.render("system/viewTransactions", {transactionData : result})
+                return res.json({transactionData : result})
             })
         }
     },
