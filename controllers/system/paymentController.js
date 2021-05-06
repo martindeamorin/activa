@@ -29,7 +29,7 @@ const paymentFunctions = {
     </p>
 
     <p>
-        La informacion sobre la reunion semanal se encontrará en el campus dentro de cada clase, en la parte superior. Si tiene alguna consulta o no puede acceder al curso, por favor escriba a: contacto@activacoaching.com.ar
+        La informacion sobre la reunion semanal se encontrará en el campus dentro de cada clase, en la parte superior. Si tiene alguna consulta o no puede acceder al curso, por favor escriba a: info@activacoaching.com.ar
     </p>
     `
     const transporter = nodemailer.createTransport({
@@ -64,7 +64,6 @@ const paymentController = {
     //    Crea un objeto de preferencia
     db.Course.findOne({where : {id : req.body.course_id}})
     .then( data => {
-      console.log(req.session.user.email)
       let preference = {
         payer : {
           name : req.session.user.nombre,
@@ -110,7 +109,6 @@ const paymentController = {
 
         switch(req.body.topic){
           case "payment":
-            console.log(data)
             break;
           case "merchant_order":
             fetch(`https://api.mercadopago.com/checkout/preferences/${data.body.preference_id}`, {
@@ -180,7 +178,7 @@ const paymentController = {
         postreq += `&${key}=${req.body[key]}`;
       }
 
-      fetch("https://ipnpb.sandbox.paypal.com/cgi-bin/webscr", {
+      fetch("https://ipnpb.paypal.com/cgi-bin/webscr", {
        body : postreq,
        encoding : "utf-8",
        method : "POST",

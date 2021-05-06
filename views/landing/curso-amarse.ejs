@@ -39,6 +39,13 @@
               <p><a><%=courseData.instructora%></a></p>
             </div>
 
+            <%if(courseData.fecha_inicio != "00-00-0000"){%>
+              <div class="course-info d-flex justify-content-between align-items-center">
+                <h5>Fecha</h5>
+                <p><a><%=courseData.fecha_inicio%> - <%=courseData.fecha_final%></a></p>
+              </div>
+            <%}%>
+
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Duración</h5>
               <p><%=classData.length%> clases</p>
@@ -46,7 +53,7 @@
 
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Dias</h5>
-              <p><%=courseData.dia_curso%> <%=courseData.hora_curso.substring(0,5)%></p>
+              <p><%=courseData.dia_curso%> <%if(courseData.hora_curso != "00-00-0000"){%><%=courseData.hora_curso.substring(0,5)%></p><%}%>
             </div>
 
             <div class="course-info d-flex justify-content-between align-items-center">
