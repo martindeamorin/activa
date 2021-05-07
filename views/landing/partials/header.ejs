@@ -6,8 +6,8 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="/">Inicio</a></li>
-          <li><a href="#about">Nosotros</a></li>
-          <li class="drop-down"><a href="#popular-courses">Cursos</a>
+          <li><a href="/#about">Nosotros</a></li>
+          <li class="drop-down"><a href="/#popular-courses">Cursos</a>
                 <ul>
                   
                     <%for(let courseData of courses){%>
@@ -15,8 +15,8 @@
                     <%}%>
                 </ul>
           </li>
-          <li><a href="#trainers">Coaches</a></li>
-          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="/#trainers">Coaches</a></li>
+          <li><a href="/#contacto">Contacto</a></li>
           <%if(typeof nombre != "undefined"){%>
             <li><a href="/cursos">Campus</a></li>
           <%} else{%>

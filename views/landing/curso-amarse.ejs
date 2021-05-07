@@ -36,13 +36,13 @@
 
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Capacitador</h5>
-              <p><a><%=courseData.instructora%></a></p>
+              <p><%=courseData.instructora%></p>
             </div>
 
-            <%if(courseData.fecha_inicio != "00-00-0000"){%>
+            <%if(courseData.fecha_inicio != "0000-00-00"){%>
               <div class="course-info d-flex justify-content-between align-items-center">
                 <h5>Fecha</h5>
-                <p><a><%=courseData.fecha_inicio%> - <%=courseData.fecha_final%></a></p>
+                <p><%=courseData.fecha_inicio%> - <%=courseData.fecha_final%></p>
               </div>
             <%}%>
 
@@ -53,7 +53,7 @@
 
             <div class="course-info d-flex justify-content-between align-items-center">
               <h5>Dias</h5>
-              <p><%=courseData.dia_curso%> <%if(courseData.hora_curso != "00-00-0000"){%><%=courseData.hora_curso.substring(0,5)%></p><%}%>
+              <p><%=courseData.dia_curso%> <%if(courseData.hora_curso != "00:00:00"){%><%=courseData.hora_curso.substring(0,5)%></p><%}%>
             </div>
 
             <div class="course-info d-flex justify-content-between align-items-center">

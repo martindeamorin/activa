@@ -7,8 +7,9 @@ header{
     top: 0;
     background-color: white;
     height: max-content;
-    z-index: 999;
+    z-index: 1;
     padding: 1vh 0;
+
 }
 
 header h1 {
