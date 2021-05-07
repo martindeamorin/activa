@@ -1175,6 +1175,7 @@ section {
 .course-details .course-info p {
   margin: 0;
   font-weight: normal;
+  text-align: end;
 }
 
 .course-details .course-info a {
