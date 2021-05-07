@@ -11,14 +11,18 @@
                 <ul>
                   
                     <%for(let courseData of courses){%>
-                      <li><a href="/curso/<%=courseData.nombre%>"><%=courseData.nombre%></a></li>
+                      <li><a target="_blank" href="/curso/<%=courseData.nombre%>"><%=courseData.nombre%></a></li>
                     <%}%>
                 </ul>
           </li>
           <li><a href="/#trainers">Coaches</a></li>
           <li><a href="/#contacto">Contacto</a></li>
           <%if(typeof nombre != "undefined"){%>
-            <li><a href="/cursos">Campus</a></li>
+            <li><a <%if(permiso === true){%>
+              href="/dashboard/course-create"
+              <%}else{%>
+                href="/cursos"
+                <%}%>>Campus</a></li>
           <%} else{%>
           <li><a href="/login">Ingresar</a></li>
           <%}%>

@@ -3,7 +3,6 @@
   table{
       border-collapse: collapse;
       width: 80%;
-      table-layout: fixed;
       border-spacing: 15px;
       margin: auto;
       margin-top: 3vh;
@@ -71,7 +70,17 @@
         width: 70px;
         font-size: 0.8rem;
       }
-      th,th{
-        width: 200px;
+      thead, tr{
+        width: 100vw;
       }
+      th, td{
+        width: 25%;
+        font-size: 0.8rem;
+      }
+      table{
+        overflow-x: auto;
+        width: 100%;
+        border-radius: 0;
+      }
+      
     }

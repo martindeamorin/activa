@@ -10,6 +10,7 @@ const globalMiddleware = {
             res.locals.nombre = req.session.user.nombre
             res.locals.email = req.session.user.email
             res.locals.id = req.session.user.id
+            res.locals.permiso = req.session.user.admin
             next()
         } else {
             next()
