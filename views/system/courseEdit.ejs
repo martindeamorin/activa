@@ -10,15 +10,15 @@
             <div class="contenedorForm">
                 <form action="/dashboard/course-edit/<%=courseData.id%>" method="POST" enctype="multipart/form-data">
                     <input type="text" name="nombreCurso" placeholder="Nombre" value="<%= courseData.nombre_curso%>">
-                    <div>
+                    <div class="inputsWrapper">
                         <input type="number" name="precioCurso" placeholder="Precio" value="<%= courseData.costo_curso%>">
                         <input type="number" name="precioCursoPesos" placeholder="Precio (ARS)" value="<%=courseData.costo_pesos%>">
                     </div>
-                    <div>
+                    <div class="inputsWrapper">
                         <input value="<%= courseData.fecha_inicio%>" placeholder="Fecha de inicio" name="fechaInicioCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                         <input value="<%= courseData.fecha_final%>" placeholder="Fecha de finalizacion" name="fechaFinalCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                     </div>
-                    <div>
+                    <div class="inputsWrapper">
                         <input type="text" value="<%= courseData.dia_curso%>" name="diaCurso" placeholder="Dia de reunion">
                         <input name="horaCurso" value="<%= courseData.hora_curso%>" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
                     </div>
