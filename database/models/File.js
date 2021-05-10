@@ -8,7 +8,7 @@ module.exports = function(sequelize, dataTypes){
             "allowNull" : false
         },
         ruta_archivo : {
-            type : dataTypes.STRING(100),
+            type : dataTypes.STRING(800),
             "allowNull" : false
         },
         tipo_archivo : {
