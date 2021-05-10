@@ -12,25 +12,30 @@
                 <form action="/dashboard/course-create" method="POST" enctype="multipart/form-data">
                     <input type="text" name="nombreCurso" placeholder="Nombre">
 
-                    <div>
+                    <div class="inputsWrapper">
                         <input type="number" name="precioCurso" placeholder="Precio (USD)">
                         <input type="number" name="precioCursoPesos" placeholder="Precio (ARS)">
                     </div>
-                    <div style="margin: auto;">
+                    <div class="inputsWrapper">
                         <input placeholder="Fecha de inicio" name="fechaInicioCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                         <input placeholder="Fecha de finalizacion" name="fechaFinalCurso" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
                     </div>
-                    <div style="margin: auto;">
+                    <div class="inputsWrapper">
                         <input type="text" name="diaCurso" placeholder="Dia de reunion">
                         <input name="horaCurso" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
                     </div>
+                    <div class="selectContainer">
                         <select name="instructora" class="select-css">
                             <option value="María Rosa Buffa PCC y Estefanía Amadío">María Rosa Buffa PCC y Estefanía Amadío</option>
                             <option value="María Rosa Buffa PCC">María Rosa Buffa PCC</option>
                             <option value="Estefanía Amadío">Estefanía Amadío</option>
                         </select>
-                    
-
+                        <select name="tipoCurso" class="select-css">
+                            <option value="mentoria">Capacitacion</option>
+                            <option value="taller">Taller</option>
+                        </select>
+                    </div>
+                    <textarea id="informacionExtra" placeholder="Informacion extra" name="informacionExtra" cols="20" rows="5"></textarea>
                     <textarea placeholder="Descripcion corta (es lo que se muestra en la landing)" name="descripcionCorta" cols="30" rows="5"></textarea>
                     <textarea placeholder="Descripcion larga (es lo que se muestra en el detalle del curso)" name="descripcionCurso" id="descripcion_curso" cols="30" rows="10"></textarea>
                     <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
@@ -50,7 +55,8 @@
                 <thead>
                     <tr>
                         <th>NOMBRE</th>
-                        <th>HABILITAR</th>
+                        <th>MOSTRAR</th>
+                        <th>HABILTIAR PAGO</th>
                         <th>MODIFICAR</th>
                     </tr>
                 </thead>
@@ -64,6 +70,9 @@
                             <tr>
                                 <td><%= courseData.nombre_curso%></td>
                                 <td><input class="habilitar" type="checkbox" <%if(courseData.estado_curso === true){%>
+                                    checked="true"
+                                    <%}%>></td>
+                                <td><input class="habilitarPago" type="checkbox" <%if(courseData.habilitar_pago === true){%>
                                     checked="true"
                                     <%}%>></td>
                                 <td><a href="/dashboard/course-edit/<%=courseData.id%>"><i class="fas fa-pencil-alt"></i></a><a href="/dashboard/course-edit/<%=courseData.id%>/delete"><i class="fas fa-trash-alt"></i></a></i></td>
@@ -82,6 +91,13 @@
             selector: '#descripcion_curso',
             plugins: 'lists',
             toolbar: 'undo redo bullist paragraph formatselect bold',
+            lists_indent_on_tab: false,
+            menubar : ""
+        });
+        tinymce.init({
+            selector: '#informacionExtra',
+            plugins: 'lists link',
+            toolbar: 'undo redo bullist paragraph formatselect link bold',
             lists_indent_on_tab: false,
             menubar : ""
         });

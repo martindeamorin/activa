@@ -61,14 +61,19 @@
               <h5>Valor del curso</h5>
               <p>$<%=courseData.costo_pesos%> - US$<%=courseData.costo_curso%></p>
             </div>
-
+            <%if(courseData.tipo_curso == "taller"){%>
             <div class="course-info d-flex justify-content-between align-items-center">
-              <h5></h5>
               <p>Accediendo a este taller tenes la posibilidad de sumarte a un ZOOM semanal en VIVO para profundizar y compartir.</p>
             </div>
+            <%}%>
+            <%if(courseData.informacion_extra !== ""){%>
+              <div class="course-info d-flex justify-content-between align-items-center">
+                <p><%-courseData.informacion_extra%></p>
+              </div>
+              <%}%>
             <div class="btn-wrap">
               <input type="hidden" value="<%=courseData.id%>" id="courseID">
-              <% if(typeof nombre !== "undefined"){%>
+              <% if((typeof nombre !== "undefined") && (courseData.habilitar_pago == 1)){%>
                 <div class="btn-flex">
                   <button class="mercadopago-button"></button>
                   <form action='https://www.sandbox.paypal.com/cgi-bin/webscr' method='post'>
@@ -94,9 +99,11 @@
               </div>
               <%} else{%>
 
-                <div class="course-info d-flex justify-content-between align-items-center" style="background-color: #86E3CE;">
-                    <p id="login" style="text-align: center;"><a style="color: #03936E;" id="log" href="http://activacoaching.com.ar/login">Inicia sesión</a> o <a style="color: #03936E;" id="reg" href="http://activacoaching.com.ar/register">registrate</a> para poder comprar este curso</p>
+                <%if(courseData.habilitar_pago == 1){%>
+                  <div class="course-info d-flex justify-content-between align-items-center" style="background-color: #86E3CE;">
+                    <p id="login" style="text-align: center;"><a style="color: #03936E;" id="log" href="https://activacoaching.com.ar/login">Inicia sesión</a> o <a style="color: #03936E;" id="reg" href="https://activacoaching.com.ar/register">registrate</a> para poder comprar este curso</p>
                 </div>
+                <%}%>
                 <%}%>
 
             </div>

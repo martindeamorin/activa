@@ -14,6 +14,9 @@ module.exports = function(sequelize, dataTypes){
         instructora : {
             type : dataTypes.STRING(100)
         },
+        tipo_curso : {
+            type : dataTypes.STRING(45)
+        },
         fecha_inicio : {
             type : dataTypes.DATEONLY,
         },
@@ -29,7 +32,13 @@ module.exports = function(sequelize, dataTypes){
         descripcion_curso : {
             type : dataTypes.TEXT
         },
+        informacion_extra : {
+            type : dataTypes.TEXT
+        },
         destacar : {
+            type : dataTypes.BOOLEAN
+        },
+        habilitar_pago : {
             type : dataTypes.BOOLEAN
         },
         estado_curso : {

@@ -24,6 +24,9 @@ const dashboardController = {
             instructora : req.body.instructora,
             costo_pesos : req.body.precioCursoPesos,
             imagen_landing :req.files[0].filename,
+            tipo_curso : req.body.tipoCurso,
+            informacion_extra : req.body.informacionExtra,
+            habilitar_pago : 0,
             estado_curso : 0
         })
         .then( () => {
@@ -99,6 +102,8 @@ const dashboardController = {
             hora_curso : req.body.horaCurso,
             instructora : req.body.instructora,
             costo_pesos : req.body.precioCursoPesos,
+            tipo_curso : req.body.tipoCurso,
+            informacion_extra : req.body.informacionExtra
         },
         {
             where : 
@@ -238,6 +243,18 @@ const dashboardController = {
             estado_clase : req.body.habilitar
         },
             {where : {nombre_clase : req.body.nombre, curso_id : req.body.courseID}
+        })
+        .then((data) => {
+            if(data[0] == 1){
+                return res.json(200)
+            }
+        })
+    },
+    paymentEnable : (req, res) =>{
+        db.Course.update({
+            habilitar_pago : req.body.checkPago
+        },
+            {where : {nombre_curso : req.body.nombre}
         })
         .then((data) => {
             if(data[0] == 1){

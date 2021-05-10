@@ -44,12 +44,17 @@ const globalMiddleware = {
 
     },
     getHeaderCourse : (req, res, next) => {
-        db.Course.findAll({where : {estado_curso : 1}, attributes : ["nombre_curso", "id"]})
+        db.Course.findAll({where : {estado_curso : 1}, attributes : ["nombre_curso", "id", "tipo_curso", "imagen_landing", "descripcion_corta"]})
         .then((result) => {
             if(result){
-                res.locals.courses = []
+                res.locals.taller = []
+                res.locals.mentoria = []
                 for(let courseData of result){
-                    res.locals.courses.push({nombre : courseData.nombre_curso, id : courseData.id})
+                    if(courseData.tipo_curso == "mentoria"){
+                        res.locals.mentoria.push({nombre : courseData.nombre_curso, id : courseData.id, descripcion_corta : courseData.descripcion_corta, imagen_landing : courseData.imagen_landing})
+                    } else{
+                        res.locals.taller.push({nombre : courseData.nombre_curso, id : courseData.id, descripcion_corta : courseData.descripcion_corta, imagen_landing : courseData.imagen_landing})
+                    }
                 }
             }
 

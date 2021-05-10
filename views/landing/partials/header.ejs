@@ -7,11 +7,18 @@
         <ul>
           <li class="active"><a href="/">Inicio</a></li>
           <li><a href="/#about">Nosotros</a></li>
-          <li class="drop-down"><a href="/#popular-courses">Cursos</a>
+          <li class="drop-down"><a href="/#talleres">Talleres</a>
+              <ul>
+                
+                  <%for(let tallerInfo of taller){%>
+                    <li><a target="_blank" href="/curso/<%=tallerInfo.nombre%>"><%=tallerInfo.nombre%></a></li>
+                  <%}%>
+              </ul>
+          </li>
+          <li class="drop-down"><a href="/#capacitaciones">Capacitaciones</a>
                 <ul>
-                  
-                    <%for(let courseData of courses){%>
-                      <li><a target="_blank" href="/curso/<%=courseData.nombre%>"><%=courseData.nombre%></a></li>
+                    <%for(let mentoriaInfo of mentoria){%>
+                      <li><a target="_blank" href="/curso/<%=mentoriaInfo.nombre%>"><%=mentoriaInfo.nombre%></a></li>
                     <%}%>
                 </ul>
           </li>

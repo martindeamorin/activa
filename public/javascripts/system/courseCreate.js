@@ -49,6 +49,7 @@ window.addEventListener("load", () => {
       } else{
         bodyPost.habilitar = 0
       }
+      console.log(bodyPost)
       if(document.querySelector("#courseInfo")){
         fetch("https://activacoaching.com.ar/dashboard/course-enable", {
           headers : {
@@ -77,5 +78,29 @@ window.addEventListener("load", () => {
     })
   }
 
-
+  let habilitarPago = document.querySelectorAll(".habilitarPago")
+  for(let checkPago of habilitarPago){
+    checkPago.addEventListener("change", () => {
+      let bodyPost = {
+        nombre : checkPago.parentElement.previousElementSibling.previousElementSibling.innerHTML
+      }
+      if(checkPago.checked == true){
+        
+        bodyPost.checkPago = 1
+      } else{
+        bodyPost.checkPago = 0
+      }
+        fetch("http://localhost:3001/dashboard/payment-enable", {
+          headers : {
+            "Content-Type" : "application/json"
+          },
+          method : "POST",
+          body : JSON.stringify(bodyPost)
+        })
+        .then(data => data.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+      })
+  }
+  
 })

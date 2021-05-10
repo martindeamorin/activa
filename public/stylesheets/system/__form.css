@@ -9,20 +9,30 @@
     margin: auto;
 }
 
+.inputsWrapper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
 
 
 textarea:focus, input:focus{
     outline: none;
 }
 
+.selectContainer{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
 .select-css {
-    display: block;
     font-size: 13px;
     padding: 10px 10px;
     border: #03936E solid 1px;
+    margin: 0.5vh 0;
     border-radius: 20px;
-    max-width: 100%;
-    margin: 0.5vh auto;
+    width: 47%;
   }
   .select-css:hover {
     border-color: #888;

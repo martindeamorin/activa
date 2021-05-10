@@ -22,21 +22,31 @@
                         <input type="text" value="<%= courseData.dia_curso%>" name="diaCurso" placeholder="Dia de reunion">
                         <input name="horaCurso" value="<%= courseData.hora_curso%>" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="Hora de reunion">
                     </div>
-
-                    <select name="instructora" class="select-css">
-                            <option value="María Rosa Buffa PCC y Estefanía Amadío"
-                            <%if(courseData.instructora == "María Rosa Buffa PCC y Estefanía Amadío"){%>
+                    <div class="selectContainer">
+                        <select name="instructora" class="select-css">
+                                <option value="María Rosa Buffa PCC y Estefanía Amadío"
+                                <%if(courseData.instructora == "María Rosa Buffa PCC y Estefanía Amadío"){%>
+                                    selected
+                                    <%}%>>María Rosa Buffa PCC y Estefanía Amadío</option>
+                                <option value="María Rosa Buffa PCC"
+                                <%if(courseData.instructora == "María Rosa Buffa PCC"){%>
+                                    selected
+                                    <%}%>>María Rosa Buffa PCC</option>
+                                <option value="Estefanía Amadío"
+                                <%if(courseData.instructora == "Estefanía Amadío"){%>
+                                    selected
+                                    <%}%>>Estefanía Amadío</option>
+                        </select>
+                        <select name="tipoCurso" class="select-css">
+                            <option value="mentoria" <%if(courseData.tipo_curso == "mentoria"){%>
                                 selected
-                                <%}%>>María Rosa Buffa PCC y Estefanía Amadío</option>
-                            <option value="María Rosa Buffa PCC"
-                            <%if(courseData.instructora == "María Rosa Buffa PCC"){%>
+                                <%}%>>Capacitacion</option>
+                            <option value="taller" <%if(courseData.tipo_curso == "taller"){%>
                                 selected
-                                <%}%>>María Rosa Buffa PCC</option>
-                            <option value="Estefanía Amadío"
-                            <%if(courseData.instructora == "Estefanía Amadío"){%>
-                                selected
-                                <%}%>>Estefanía Amadío</option>
-                    </select>
+                                <%}%>>Taller</option>
+                        </select>
+                    </div>
+                    <textarea placeholder="Informacion extra" name="informacionExtra" id="informacionExtra" cols="30" rows="10"><%= courseData.informacion_extra%></textarea>
                     <textarea placeholder="Descripcion corta" name="descripcionCorta" cols="30" rows="5"><%= courseData.descripcion_corta%></textarea>
                     <textarea placeholder="Descripcion" name="descripcionCurso" id="descripcion_curso" cols="30" rows="10"><%= courseData.descripcion_curso%></textarea>
                     <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
@@ -108,6 +118,13 @@
             selector: '#descripcion_curso',
             plugins: 'lists',
             toolbar: 'undo redo bullist paragraph formatselect bold',
+            lists_indent_on_tab: false,
+            menubar : ""
+        });
+        tinymce.init({
+            selector: '#informacionExtra',
+            plugins: 'lists link',
+            toolbar: 'undo redo bullist paragraph formatselect link bold',
             lists_indent_on_tab: false,
             menubar : ""
         });
