@@ -90,7 +90,7 @@ window.addEventListener("load", () => {
       } else{
         bodyPost.checkPago = 0
       }
-        fetch("http://localhost:3001/dashboard/payment-enable", {
+        fetch("https://activacoaching.com.ar/dashboard/payment-enable", {
           headers : {
             "Content-Type" : "application/json"
           },
