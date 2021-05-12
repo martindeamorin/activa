@@ -263,8 +263,10 @@ const dashboardController = {
         })
     },
     viewTransactions : (req, res) => {
-
-            res.render("system/viewTransactions")
+        db.Course.findAll({attributes : ["nombre_curso", "id"]})
+        .then( data => {
+          return res.render("system/viewTransactions", {courses : data})
+        })
     },
 
     sortTransactions : (req, res) => {
@@ -287,6 +289,22 @@ const dashboardController = {
         db.CourseStudent.findOne({where : {id : req.params.id}, include : [{association : "student"},{association : "course"}]})
         .then((result) => {
             res.render("system/transactionDetail", {transactionData : result})
+        })
+    },
+    giveAccess : (req, res) => {
+        db.Student.findOne({where : {email_alumno : req.body.emailAcceso}})
+        .then( data => {
+            if(data){
+                db.CourseStudent.create({curso_id : req.body.cursoAcceso, alumno_id : data.id, estado_pago : "paid", plataforma_pago : "manual"})
+                .then(() => {
+                        return res.redirect("/dashboard/transactions")
+                })
+            } else{
+                db.Course.findAll({attributes : ["nombre_curso", "id"]})
+                .then((data) => {
+                    res.render("system/viewTransactions", {errorMessage : "No se ha encontrado un usuario registrado con ese mail", courses : data})
+                })
+            }
         })
     }
 

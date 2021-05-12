@@ -9,13 +9,35 @@
             <div class="mobileNav"><i id="burguerIcon" class="fas fa-bars"></i></div>
 
         <h2>Transacciones</h2>
+
+        <h3 style="text-align: center;">Dar acceso a curso</h3>
+
+        <div class="contenedorForm">
+            <form action="/dashboard/give-access" method="POST">
+                <div class="inputsFilter">
+                    <select name="cursoAcceso" style="padding: 10px; border-radius: 20px;">
+                        <%for(let courseData of courses){%>
+                            <option value="<%=courseData.id%>"><%=courseData.nombre_curso%></option>
+                        <%}%>
+                    </select>
+                    <input type="email" name="emailAcceso" placeholder="Correo electronico">
+                </div>
+                <button type="submit" class="claseButton btnDashboard">AGREGAR</button>
+                <span class="errorMessage"><% if(typeof errorMessage != "undefined"){%>
+                    <%= errorMessage %>
+                <%}%></span>
+            </form>
+        </div>
+
+        <h3 style="text-align: center;">Filtrar transacciones</h3>
+
         <div class="contenedorForm">
             <form action="/dashboard/transactions" method="POST">
             <div class="inputsFilter">
             <select name="curso" style="padding: 10px; border-radius: 20px;" id="curso">
                 <option value="todos">TODOS</option>
                 <%for(let courseData of courses){%>
-                    <option value="<%=courseData.nombre%>"><%=courseData.nombre%></option>
+                    <option value="<%=courseData.nombre_curso%>"><%=courseData.nombre_curso%></option>
                 <%}%>
             </select>
             <input type="number" name="limite" id="limite" placeholder="Cantidad de resultados">

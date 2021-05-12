@@ -13,6 +13,10 @@
     margin: 0 0.3vw;
 }
 
+.inputsFilter{
+    margin-bottom: 1vh;
+}
+
 @media only screen and (max-width: 460px){
     .inputsFilter{
         display: flex;

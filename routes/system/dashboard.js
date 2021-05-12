@@ -42,4 +42,6 @@ router.post("/class-enable", userMiddleware.isLogged, userMiddleware.isAdmin, da
 router.get("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewTransactions)
 router.post("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.sortTransactions)
 router.get("/transactions/:id", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewTransactionDetail)
+router.post("/give-access", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.giveAccess)
+
 module.exports = router;
