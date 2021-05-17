@@ -37,9 +37,7 @@
     width: 100%;
     text-align: center;
 }
-.contenedorLoginRegister .contenedorForm img{
-    margin: auto;
-}
+
 .contenedorLoginRegister .contenedorForm input[type="checkbox"] {
     margin-left: 0.5vw;
     vertical-align: bottom;

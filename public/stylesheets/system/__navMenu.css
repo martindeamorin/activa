@@ -1,5 +1,5 @@
 .contenedorMenu{
-    background-color: #FFDD94;
+    background-color: #F2F2F2;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     min-height: 100vh;
@@ -13,13 +13,18 @@
     font-size: 20px;
 }
 
+.navTitle img{
+    height: 50px;
+    width: auto;
+}
+
 .contenedorMenuMobile{
     position: fixed;
     top: 0;
     left: 0;
     /* display: block; */
     z-index: 999;
-    background-color: #FFDD94;
+    background-color: #F2F2F2;
     height: 100%;
 }
 
@@ -27,7 +32,7 @@
     position: absolute;
 }
 .slideHide{
-    left: -150px;
+    left: -180px;
     transition: 0.5s all;
 }
 
@@ -134,7 +139,7 @@
 @media only screen and (max-width: 400px){
 
     .show{
-        width: 90%;
+        width: 80%;
     }
     .slideShow{
         left: 25%;

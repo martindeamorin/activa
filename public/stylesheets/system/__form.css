@@ -8,7 +8,11 @@
     flex-direction: column;
     margin: auto;
 }
-
+.contenedorForm img{
+    height: 60px;
+    width: auto;
+    margin: 1.5vh auto 0 auto;
+}
 .inputsWrapper{
     display: flex;
     justify-content: space-around;
