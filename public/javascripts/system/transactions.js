@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
         'querySet': [],
     
         'page': 1,
-        'rows': 1,
+        'rows': 15,
         'window': 5,
     }
 
