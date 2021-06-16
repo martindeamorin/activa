@@ -1,0 +1,154 @@
+.contenedorForm{
+    display: flex;
+    width: 100%;
+}
+
+.contenedorForm form{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.contenedorForm img{
+    height: 60px;
+    width: auto;
+    margin: 1.5vh auto 0 auto;
+}
+.inputsWrapper{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
+.selectContainer{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.select-css {
+    font-size: 13px;
+    padding: 10px 10px;
+    border: #03936E solid 1px;
+    margin: 0.5vh 0;
+    border-radius: 20px;
+    width: 47%;
+  }
+  .select-css:hover {
+    border-color: #888;
+  }
+  .select-css:focus {
+
+    outline: none;
+  }
+
+input:not([type="checkbox"]){
+    padding: 10px;
+    border: #03936E solid 1px;
+    border-radius: 20px;
+    margin : 0.5vh;
+}
+.contenedorForm textarea{
+    padding: 10px;
+    border: #03936E solid 1px;
+    border-radius: 10px;
+    margin : 0.5vh;
+    resize: none;
+}
+
+.contenedorForm button{
+    margin: auto;
+}
+
+
+.contenedorClases{
+    display: flex;
+    width: 100%;
+}
+
+.contenedorArchivos{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.contenedorVideos{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.uploadImage input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.uploadImage{
+    border: 1px solid black;
+    display: inline-block;
+    height: fit-content;
+    padding: 2px 2px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: white;
+    max-width: max-content;
+}
+.uploadImage i{
+    margin-right: 5px;
+
+}
+
+.selectedFiles{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 1vh;
+    width: 360px;
+    text-align: center;
+}
+
+.selectedFiles span{
+    padding: 5px;
+}
+
+.contenedorVideos input{
+    width: 300px;
+}
+
+#botonFiles{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 480px){
+
+input:not([type="checkbox"]){
+width: 100%;
+margin: 0.5vh auto;
+}
+
+.inputsWrapper input{
+    width: 100%;
+}
+.inputsWrapper {
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenedorForm form{
+padding: 10px;
+}
+
+}
