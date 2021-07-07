@@ -7,7 +7,7 @@ userMiddleware = {
     registerValidation : [
         body("nombreUsuario").notEmpty().isAlpha().withMessage("Debe ingresar un nombre"),
         body("dni").notEmpty().withMessage("Debe ingresar un DNI"),
-        body("emailUsuario").notEmpty().normalizeEmail().isEmail().withMessage("Debe ingresar un email válido"),
+        body("emailUsuario").notEmpty().isEmail().withMessage("Debe ingresar un email válido"),
         body("emailUsuario").custom(function(value){
             return db.Student.findOne({where : {email_alumno : value}}).then(function(resultado){
                 if(resultado){

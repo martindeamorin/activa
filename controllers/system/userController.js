@@ -41,8 +41,6 @@ const userController = {
                     dni : findSession.dni
                 }
             
-            console.log(req.session.user)
-
             if(typeof req.body.returnURL !== "undefined"){
                 res.redirect(req.body.returnURL)
             } else{
