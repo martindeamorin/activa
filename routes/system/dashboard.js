@@ -43,5 +43,7 @@ router.get("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, das
 router.post("/transactions", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.sortTransactions)
 router.get("/transactions/:id", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewTransactionDetail)
 router.post("/give-access", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.giveAccess)
+router.get("/users", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.viewUsers)
+router.post("/users", userMiddleware.isLogged, userMiddleware.isAdmin, dashboardController.sortUsers)
 
 module.exports = router;

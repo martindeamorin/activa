@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/dashboardHead') %> 
+<body>
+
+    <div class="contenedorDashboard">
+        <%- include('partials/navMenu') %> 
+        <div class="contenedorContenido">
+            <div class="mobileNav"><i id="burguerIcon" class="fas fa-bars"></i></div>
+
+        <h2>Lista de usuarios</h2>
+
+
+        <h3 style="text-align: center;">Filtrar usuarios</h3>
+
+        <div class="contenedorForm">
+            <form action="/dashboard/transactions" method="POST">
+            <div class="inputsFilter">
+            <input type="number" name="limite" id="limite" placeholder="Cantidad de resultados">
+            <input type="text" name="email" placeholder="Correo electronico" id="email">
+
+        </div>
+        <div style="margin: auto; margin-bottom: 1vh;">
+            <label><input type="radio" name="orden" value="ASC"  id="ordenASC" checked>PRIMEROS REGISTROS</label>
+            <label><input type="radio" name="orden" value="DESC" id="ordenDESC">ULTIMOS REGISTROS</label>
+        </div>
+            <button type="submit" class="claseButton btnDashboard" id="btnFiltrar">FILTRAR</button>
+        </form>
+        </div>
+
+        <table id="table-id">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>EMAIL</th>
+                    <th>NEWSLETTER</th>
+                </tr>
+            </thead>
+                <tbody id="courseInfo">    
+                </tbody>
+        </table>
+
+        <div class="container">
+            <div id="pagination-wrapper"></div>
+        </div>
+        
+
+    </div>
+    </div>
+    <script src="/javascripts/system/dashboardMenu.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/javascripts/system/userList.js"></script>
+    </body>
+</html>
