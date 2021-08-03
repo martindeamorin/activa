@@ -53,13 +53,17 @@
                         <i class="fa fa-cloud-upload"></i><span>Subir imagen landing</span>
                         <input type="file" name="rutaImagenLanding" placeholder="Subir Imágenes" id="imagenLanding" multiple>
                     </label>
-                    <img class="showImgLanding" style="display: block;" src="/images/<%=courseData.imagen_landing%>">
+                    <img class="showImgLanding" style="display: block;"  <% if(courseData.imagen_landing !== ""){ %>
+                        src="/images/<%=courseData.imagen_landing%>"
+                    <%}%>" >
 
                     <label class="uploadImage" style="margin : auto; margin-bottom : 1vh">
                         <i class="fa fa-cloud-upload"></i><span>Subir imagen campus</span>
                         <input type="file" name="rutaImagenCampus" placeholder="Subir Imágenes" id="imagenCampus" multiple>
                     </label>
-                    <img class="showImgCampus" style="display: block;" src="/images/<%=courseData.imagen_curso%>">
+                    <img class="showImgCampus" style="display: block;" <% if(courseData.imagen_curso !== ""){ %>
+                        src="/images/<%=courseData.imagen_curso%>"
+                    <%}%> >
                     <button class="claseButton" type="submit">Editar</button>
                 </form>
             </div>
