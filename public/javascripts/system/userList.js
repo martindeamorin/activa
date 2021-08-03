@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
         'querySet': [],
     
         'page': 1,
-        'rows': 15,
+        'rows': 10,
         'window': 5,
     }
 
@@ -27,6 +27,7 @@ window.addEventListener("load", () => {
                     document.querySelector("#courseInfo").innerHTML =  `<tr><td colspan="4">No se han encontrado usuarios</td></tr>`
                 }else{
                     state.querySet = transactionData
+                    console.log(transactionData)
                     buildTable()
                 }
             })
@@ -107,15 +108,15 @@ window.addEventListener("load", () => {
         for (var page = maxLeft; page <= maxRight; page++) {
             wrapper.innerHTML += `<button value=${page} class="page">${page}</button>`
         }
-        if(pages == 0){
+        if(pages === 0){
             wrapper.innerHTML = `<button value=${1} class="page">1</button>` + wrapper.innerHTML
         }
     
-        if (state.page != 1) {
+        if (state.page !== 1) {
             wrapper.innerHTML = `<button value=${1} class="page">&#171; Primero</button>` + wrapper.innerHTML
         }
     
-        if ((state.page != pages) && (pages > state.window )) {
+        if ((state.page !== pages) && (pages > state.window )) {
             wrapper.innerHTML += `<button value=${pages} class="page">Ultimo &#187;</button>`
         }
     
