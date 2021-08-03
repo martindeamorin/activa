@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include('partials/dashboardHead') %> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
 <body>
 
     <div class="contenedorDashboard">
@@ -14,7 +16,7 @@
         <h3 style="text-align: center;">Filtrar usuarios</h3>
 
         <div class="contenedorForm">
-            <form action="/dashboard/transactions" method="POST">
+            <form>
             <div class="inputsFilter">
             <input type="number" name="limite" id="limite" placeholder="Cantidad de resultados">
             <input type="text" name="email" placeholder="Correo electronico" id="email">
@@ -28,7 +30,7 @@
         </form>
         </div>
 
-        <table id="table-id">
+        <table id="table-id" >
             <thead>
                 <tr>
                     <th>NOMBRE</th>
@@ -51,5 +53,6 @@
     <script src="/javascripts/system/dashboardMenu.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/javascripts/system/userList.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     </body>
 </html>

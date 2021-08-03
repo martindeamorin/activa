@@ -11,6 +11,7 @@ const dashboardController = {
             })
     },
     courseRegister: (req, res) => {
+
         db.Course.create({
             nombre_curso: req.body.nombreCurso,
             costo_curso: req.body.precioCurso,
@@ -19,18 +20,40 @@ const dashboardController = {
             descripcion_curso: req.body.descripcionCurso,
             descripcion_corta: req.body.descripcionCorta,
             dia_curso: req.body.diaCurso,
-            imagen_curso: req.files[1].filename,
             hora_curso: req.body.horaCurso,
+            imagen_landing : "",
+            imagen_curso : "",
             instructora: req.body.instructora,
             costo_pesos: req.body.precioCursoPesos,
-            imagen_landing: req.files[0].filename,
             tipo_curso: req.body.tipoCurso,
             informacion_extra: req.body.informacionExtra,
             habilitar_pago: 0,
             estado_curso: 0
         })
-            .then(() => {
-                res.redirect("/dashboard/course-create")
+            .then(async (course) => {
+                if (req.files[0]) {
+                    console.log("a")
+                    for (file of req.files) {
+                        if (file.fieldname === "rutaImagenLanding") {
+                            await db.Course.update({
+                                imagen_landing: file.filename,
+                            }, {
+                                where: {
+                                    id: course.id
+                                }
+                            })
+                        } else {
+                            await db.Course.update({
+                                imagen_curso: file.filename,
+                            }, {
+                                where: {
+                                    id: course.id
+                                }
+                            })
+                        }
+                    }
+                }
+                return res.redirect("/dashboard/course-create")
             }
             )
     },
@@ -317,10 +340,10 @@ const dashboardController = {
         if (req.body.limite == "") {
             req.body.limite = 10000;
         }
-        db.Student.findAll({ where: { email_alumno: { [Op.like]: `%${req.body.email}%` }}, limit: Number(req.body.limite), order: [["created_at", req.body.orden]], attributes: ["email_alumno", "nombre_alumno", "apellido_alumno", "newsletter"]})
-        .then((result) => {
-            return res.json({ transactionData: result })
-        })
+        db.Student.findAll({ where: { email_alumno: { [Op.like]: `%${req.body.email}%` } }, limit: Number(req.body.limite), order: [["created_at", req.body.orden]], attributes: ["email_alumno", "nombre_alumno", "apellido_alumno", "newsletter"] })
+            .then((result) => {
+                return res.json({ transactionData: result })
+            })
     }
 
 }
