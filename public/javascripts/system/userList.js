@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
         'window': 5,
     }
 
-    fetch("http://localhost:3001/dashboard/users", {
+    fetch("https://activacoaching.com.ar/dashboard/users", {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json",
@@ -40,7 +40,7 @@ window.addEventListener("load", () => {
         } else{
             orden = document.querySelector("#ordenASC").value
         }
-        fetch("http://localhost:3001/dashboard/users", {
+        fetch("https://activacoaching.com.ar/dashboard/users", {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json",
