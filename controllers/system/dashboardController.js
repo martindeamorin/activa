@@ -21,8 +21,8 @@ const dashboardController = {
             descripcion_corta: req.body.descripcionCorta,
             dia_curso: req.body.diaCurso,
             hora_curso: req.body.horaCurso,
-            imagen_landing : "",
-            imagen_curso : "",
+            imagen_landing: "",
+            imagen_curso: "",
             instructora: req.body.instructora,
             costo_pesos: req.body.precioCursoPesos,
             tipo_curso: req.body.tipoCurso,
@@ -68,7 +68,11 @@ const dashboardController = {
                         if (classData.files[0]) {
                             for (let file of classData.files) {
                                 if (file.tipo_archivo == "archivo") {
-                                    fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                                    try{
+                                        fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                                    } catch(err){
+                                        console.log(err)
+                                    }
                                 }
                             }
                         }
@@ -184,7 +188,11 @@ const dashboardController = {
                 if (classData.files[0]) {
                     for (let file of classData.files) {
                         if (file.tipo_archivo == "archivo") {
-                            fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                            try{
+                                fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                            }catch(err){
+                                console.log(err)
+                            }
                         }
                     }
                 }
@@ -195,11 +203,11 @@ const dashboardController = {
 
             })
     },
-    fileUpload: (req, res) => {
+    fileUpload: async (req, res) => {
 
         if ((req.files[0]) && (req.body.urlVideo !== "")) {
             for (let file of req.files) {
-                db.File.create({
+                await db.File.create({
                     clase_id: req.params.id,
                     ruta_archivo: file.filename,
                     tipo_archivo: "archivo"
@@ -214,18 +222,14 @@ const dashboardController = {
                     return res.redirect("/dashboard/class-edit/" + req.params.id)
                 })
         } else if (req.files[0]) {
-            let filesLoad = req.files.map((element) => {
-                return db.File.create({
+            for (let file of req.files) {
+                await db.File.create({
                     clase_id: req.params.id,
-                    ruta_archivo: element.filename,
+                    ruta_archivo: file.filename,
                     tipo_archivo: "archivo"
                 })
-            })
-            Promise.all([filesLoad])
-                .then(() => {
-                    return res.redirect("/dashboard/class-edit/" + req.params.id)
-                })
-
+            }
+            return res.redirect("/dashboard/class-edit/" + req.params.id)
         } else {
             db.File.create({
                 clase_id: req.params.id,
@@ -241,7 +245,12 @@ const dashboardController = {
         db.File.findByPk(req.params.id)
             .then(file => {
                 if (file.tipo_archivo == "archivo") {
-                    fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                    try{
+                        fs.unlinkSync(path.normalize(path.resolve(__dirname, `../../public/files/${file.ruta_archivo}`)))
+                    }
+                    catch(err){
+                        console.log(err)
+                    }
                 }
                 db.File.destroy({ where: { id: req.params.id } })
                     .then(() => {
