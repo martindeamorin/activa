@@ -5,16 +5,15 @@
     <%- include('partials/header') %> 
     <div class="contenedorLoginRegister">
         <div class="contenedorForm">
-            <form action="/recoveryEmail" method="POST">
+            <form>
                 <h2>Ingrese su correo electronico</h2>
                 <p>Enviaremos un PIN para recuperar su email</p>
-                <input type="email" name="recoverEmail">
-                <%if(typeof error !== "undefined"){%>
-                <p><%=error%></p>
-                <%}%>
-                <button type="submit" class="claseButton" id="btnRegister">ENVIAR</button>
+                <input type="email" name="recoverEmail" id="recoverEmail">
+                <span class="errorMessage"></span>
+                <button type="submit" class="claseButton" id="sendRecovery">ENVIAR</button>
             </form>
         </div>
     </div>
 </body>
+<script src="/javascripts/landing/mailRecovery.js"></script>
 </html>

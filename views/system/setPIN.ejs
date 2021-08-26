@@ -8,9 +8,19 @@
             <form action="/recuperar-contrasena/pin" method="POST">
                 <h2>Ingrese el pin enviado a su correo</h2>
                 <input type="number" name="recoveryPIN">
-                <button type="submit" class="claseButton" id="btnRegister">RECUPERAR</button>
+                <span class="errorMessage">
+                    <%if(typeof error !== "undefined"){%>
+                        <p><%=error%></p>
+                    <%}%>
+                </span>
+
+                <button type="submit" class="claseButton">RECUPERAR</button>
             </form>
+            <a style="text-align: center; margin: 2px auto; cursor: pointer;" id="sendRecovery">¿No te llegó el correo electronico? Reenvialo</a>
+            <span style="font-size: 13px; margin: 2px auto">El correo electrónico puede tardar 5 minutos en llegar. Por favor, revise el spam.</span>
         </div>
     </div>
 </body>
+<script src="/javascripts/landing/mailRecovery.js"></script>
+
 </html>

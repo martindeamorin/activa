@@ -73,7 +73,6 @@ userMiddleware = {
         }),
     ],
     payedCourse : async (req, res, next) =>{
-        console.log(req)
         let cursoPago = await db.CourseStudent.findOne({where : {curso_id : req.params.courseId, alumno_id : req.session.user.id, estado_pago : {
             [Op.or] : ["paid", "Completed"]
         }}})

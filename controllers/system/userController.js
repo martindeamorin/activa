@@ -168,7 +168,9 @@ const userController = {
         res.render("system/viewRecovery")
     },
     sendRecoveryEmail : async (req, res) => {
+
         let {recoverEmail} = req.body;
+
         let randomPIN = randomstring.generate({
             length: 6,
             charset: 'numeric'
@@ -195,10 +197,9 @@ const userController = {
             html: contentHTML
           })
         if(info.response.includes("250" || "OK")){
-            console.log(info)
-            return res.redirect(`/recuperar-contrasena/pin`)            
+            return res.json({status : 200})            
         } else{
-            return res.render("system/viewRecovery", {error : "Algo salio mal, intentelo de nuevo"})
+            return res.json({status : 500, error: "Algo salio mal, intentelo nuevamente"})
         }
     },
     viewRecoveryPin : (req, res) =>{
@@ -209,6 +210,8 @@ const userController = {
         if(usuarioRecuperar){
             req.session.emailRecover = cryptr.encrypt(usuarioRecuperar.email_alumno)
             res.redirect("/recuperar-contrasena/modificar")
+        } else{
+            return res.render("system/setPin", {error : "El PIN no coincide"})
         }
     },
     viewChangePassword : (req, res) => {
@@ -217,7 +220,6 @@ const userController = {
     changePassword : async (req, res) => {
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-        console.log(errors.errors)
         return res.render("system/changePassword", {errors : errors.errors})
         } else {
         let resultChange = await db.Student.update({recuperar_contraseña : "", contrasena : bcryptjs.hashSync(req.body.contrasena, 10)}, {where : {email_alumno : cryptr.decrypt(req.session.emailRecover)}})
