@@ -11,14 +11,14 @@
               <ul>
                 
                   <%for(let tallerInfo of taller){%>
-                    <li><a target="_blank" href="/curso/<%=tallerInfo.nombre%>"><%=tallerInfo.nombre%></a></li>
+                    <li><a target="_blank" href="/curso/<%=tallerInfo.id%>"><%=tallerInfo.nombre%></a></li>
                   <%}%>
               </ul>
           </li>
           <li class="drop-down"><a href="/#capacitaciones">Capacitaciones</a>
                 <ul>
                     <%for(let mentoriaInfo of mentoria){%>
-                      <li><a target="_blank" href="/curso/<%=mentoriaInfo.nombre%>"><%=mentoriaInfo.nombre%></a></li>
+                      <li><a target="_blank" href="/curso/<%=mentoriaInfo.id%>"><%=mentoriaInfo.nombre%></a></li>
                     <%}%>
                 </ul>
           </li>

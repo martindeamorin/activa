@@ -72,23 +72,6 @@
               <% if((typeof nombre !== "undefined") && (courseData.habilitar_pago == 1)){%>
                 <div class="btn-flex">
                   <button class="mercadopago-button"></button>
-                  <form action='https://www.sandbox.paypal.com/cgi-bin/webscr' method='post'>
-                    <INPUT TYPE="hidden" name="charset" value="utf-8">
-                    <input name='cmd' type='hidden' value='_cart'/>
-                    <input name='upload' type='hidden' value='1'/>
-                    <input name='business' type='hidden' value='info@activacoaching.com.ar'/>
-                    <input name='currency_code' type='hidden' value='USD'/>
-                    <input name='return' type='hidden' value='https://activacoaching.com.ar/cursos' />
-                    <input name='notify_url' type='hidden' value='https://activacoaching.com.ar/pp-notification' />
-                    <input name='rm' type='hidden' value='2' />
-                    <input name='custom' type='hidden' value="<%=id%>,<%=courseData.id%>,<%=email%>" />
-                    <input name='item_number_1' type='hidden' value='<%=courseData.id%>' />
-                    <input name='item_name_1' type='hidden' value='<%=courseData.nombre_curso%>' />
-                    <input name='quantity_1' type='hidden' value='1' />
-                    <input name='amount_1' type='hidden' value='<%=courseData.costo_curso%>' />
-                      
-                    <button type='submit'>PAYPAL</button>
-                    </form>
                 </div>
                 <div class="course-info d-flex flex-column justify-content-between align-items-center" style="background-color: #86E3CE; margin-top: 1vh;">
                   <p style="text-align: center;">Para consultar por otros medios de pago contactenos al siguiente correo electronico: <a style="color: #03936E;" id="reg" href="info@activacoaching.com.ar">info@activacoaching.com.ar</a></p>

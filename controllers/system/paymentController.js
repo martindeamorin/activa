@@ -159,7 +159,6 @@ const paymentController = {
                 }
 
                 if(data.body.order_status == "paid"){
-                  console.log("ENVIANDO MAIL")
                   paymentFunctions.mailNotification(response.items[0].title, Student.email_alumno)
                 }
               })
@@ -171,72 +170,6 @@ const paymentController = {
         console.log(error)
       });
     },
-    ppNotification : (req, res) => {
-      let postreq = 'cmd=_notify-validate';
-
-      for(let key in req.body){
-        postreq += `&${key}=${req.body[key]}`;
-      }
-
-      fetch("https://ipnpb.paypal.com/cgi-bin/webscr", {
-       body : postreq,
-       encoding : "utf-8",
-       method : "POST",
-       headers : {
-        'Content-Length': postreq.length,
-       }
-      })
-      .then(data => data.text())
-      .then(async data => {
-        
-        if(data == "VERIFIED"){
-          let paymentInfo = req.body.custom.split(",")
-          let findOrder = await db.CourseStudent.findOne({where : {alumno_id : paymentInfo[0], curso_id : paymentInfo[1]}})
-          if(!findOrder){
-          await  db.CourseStudent.create({
-              alumno_id : paymentInfo[0],
-              curso_id : paymentInfo[1],
-              estado_pago : req.body.payment_status,
-              total_pago : req.body.mc_gross,
-              neto_pago : req.body.mc_gross-req.body.mc_fee,
-              id_comprador : req.body.payer_id,
-              pago_identificador : req.body.txn_id,
-              plataforma_pago : "paypal",
-              id_preferencia : req.body.ipn_track_id,
-              fecha_pago : req.body.payment_date
-            })
-          } else {
-          await  db.CourseStudent.update({
-              alumno_id : paymentInfo[0],
-              curso_id : paymentInfo[1],
-              estado_pago : req.body.payment_status,
-              total_pago : req.body.mc_gross,
-              neto_pago : req.body.mc_gross-req.body.mc_fee,
-              id_comprador : req.body.payer_id,
-              pago_identificador : req.body.txn_id,
-              plataforma_pago : "paypal",
-              id_preferencia : req.body.ipn_track_id,
-              fecha_pago : req.body.payment_date
-              }, 
-              {
-                where : 
-                  {
-                    alumno_id : paymentInfo[0],
-                    curso_id : paymentInfo[1],
-                  }
-              })
-          }
-
-          if(req.body.payment_status === "Completed"){
-            paymentFunctions.mailNotification(req.body.item_name, paymentInfo[2])
-          }
-        }
-      })
-      .catch(err => console.log(err))
-      console.log(req.body)
-      return res.status(200).end()
-    
-}
 
   }
 

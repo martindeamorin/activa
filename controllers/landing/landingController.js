@@ -6,7 +6,7 @@ const landingController = {
         .then( courseData => res.render("landing/index", {courseData}))
     },
     viewCourse : (req, res) => {
-        db.Course.findOne({where : {nombre_curso : req.params.courseName, estado_curso : 1}, include : [{association : "classes"}]})
+        db.Course.findOne({where : {id : req.params.id, estado_curso : 1}, include : [{association : "classes"}]})
         .then( courseData => {
             if(courseData){
                 let classData = []
